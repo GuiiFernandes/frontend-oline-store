@@ -1,5 +1,14 @@
 export async function getCategories() {
-  // Implemente aqui
+  // armazeneo endpoint com  as categorias em uma variável no escopo desta função
+  const URL = 'https://api.mercadolibre.com/sites/MLB/categories';
+
+  // faz um fetch para buscar as categorias no Mercado Livre
+  const response = await fetch(URL);
+  // transforma a resposta do fetch em JSON
+  const data = await response.json();
+
+  // retorna as categorias
+  return data;
 }
 
 export async function getProductsFromCategoryAndQuery(/* categoryId, query */) {
