@@ -21,8 +21,7 @@ class App extends Component {
   displayProducts = async (event) => {
     event.preventDefault();
     const { query } = this.state;
-    const data = await getProductsFromCategoryAndQuery('', query);
-    const productList = data.results;
+    const productList = await getProductsFromCategoryAndQuery('', query);
     this.setState({ productList });
   };
 
