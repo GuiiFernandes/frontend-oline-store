@@ -1,9 +1,11 @@
 import React from 'react';
+import CategoryList from '../components/CategoryList';
 
 class Home extends React.Component {
   render() {
     return (
       <>
+        <CategoryList />
         <label>
           <input />
           <button>
