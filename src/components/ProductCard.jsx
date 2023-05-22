@@ -26,5 +26,3 @@ ProductCard.propTypes = {
     price: PropTypes.number.isRequired,
   }).isRequired,
 };
-
-// <Route path="/product/:id" component={ ProductList } />
