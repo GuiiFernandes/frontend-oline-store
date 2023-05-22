@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { getCategories } from '../services/api';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import ProductList from './ProductList';
 
 export default class CategoryList extends Component {
   constructor() {
     super();
+
+    this.getProducts = this.getProducts.bind(this);
+
     this.state = {
       categories: [],
+      products: [],
     };
   }
 
@@ -14,14 +19,25 @@ export default class CategoryList extends Component {
     this.setState({ categories });
   }
 
+  async getProducts(event) {
+    const categoryId = event.target.id;
+    const products = await getProductsFromCategoryAndQuery(categoryId, '');
+    this.setState({ products: products.results });
+  }
+
   render() {
-    const { categories } = this.state;
+    const { categories, products } = this.state;
     return (
       <aside>
         <fieldset>
           { categories.map((category, index) => (
             <div key={ index }>
-              <input name="category" type="radio" id={ category.id } />
+              <input
+                onChange={ this.getProducts }
+                name="category"
+                type="radio"
+                id={ category.id }
+              />
               <label
                 data-testid="category"
                 htmlFor={ category.id }
@@ -30,6 +46,9 @@ export default class CategoryList extends Component {
               </label>
             </div>)) }
         </fieldset>
+        <div>
+          <ProductList query={ products } />
+        </div>
       </aside>
     );
   }
