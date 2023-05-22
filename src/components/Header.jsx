@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default class Header extends Component {
   render() {
-    const { query } = this.props;
+    const { query, handleChange, displayProducts } = this.props;
     return (
       <header>
         <form>
@@ -14,11 +14,18 @@ export default class Header extends Component {
               type="text"
               name="query"
               value={ query }
+              onChange={ handleChange }
               id="search"
               placeholder="digite o que você busca"
             />
           </label>
-          <button data-testid="query-button">Buscar</button>
+          <button
+            data-testid="query-button"
+            onClick={ displayProducts }
+          >
+            Buscar
+
+          </button>
         </form>
         <h1>Front-End Online Store</h1>
         <Link to="/cart" data-testid="shopping-cart-button">Carrinho</Link>
@@ -29,4 +36,6 @@ export default class Header extends Component {
 
 Header.propTypes = {
   query: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  displayProducts: PropTypes.func.isRequired,
 };

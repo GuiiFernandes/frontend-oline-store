@@ -4,12 +4,11 @@ import ProductCard from './ProductCard';
 
 export default class ProductList extends Component {
   render() {
-    const { query } = this.props;
-
+    const { productList } = this.props;
     return (
       <div>
         {
-          query.map((product) => (
+          productList.map((product) => (
             <ProductCard
               key={ product.id }
               product={ product }
@@ -22,7 +21,7 @@ export default class ProductList extends Component {
 }
 
 ProductList.propTypes = {
-  query: PropTypes.arrayOf(PropTypes.shape({
+  productList: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     thumbnail: PropTypes.string.isRequired,
