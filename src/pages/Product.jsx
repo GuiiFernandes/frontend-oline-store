@@ -27,6 +27,8 @@ export default class Product extends Component {
         />
         <h1 data-testid="product-detail-name">{ title }</h1>
         <p data-testid="product-detail-price">{ price }</p>
+        { product.shipping.free_shipping
+        && <p data-testid="free-shipping">Frete grátis</p>}
         <button
           data-testid="product-detail-add-to-cart"
           onClick={ () => handleAddInCart(product) }
