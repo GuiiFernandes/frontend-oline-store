@@ -5,17 +5,18 @@ import CategoryList from '../components/CategoryList';
 
 class Home extends React.Component {
   render() {
-    const { productList } = this.props;
+    const { productList, handleAddInCart } = this.props;
     return (
       <main>
         <CategoryList />
-        {
-          productList.length
-            ? <ProductList productList={ productList } />
-            : (
-              <p>Nenhum produto foi encontrado</p>
-            )
-        }
+        { productList.length ? (
+          <ProductList
+            productList={ productList }
+            handleAddInCart={ handleAddInCart }
+          />
+        ) : (
+          <p>Nenhum produto foi encontrado</p>
+        ) }
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
@@ -31,6 +32,7 @@ Home.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   })).isRequired,
+  handleAddInCart: PropTypes.func.isRequired,
 };
 
 export default Home;

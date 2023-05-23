@@ -5,6 +5,8 @@ import Header from './components/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import { getProductsFromCategoryAndQuery } from './services/api';
+import { addToCart } from './services/localStorage';
+import ProductDetails from './pages/ProductDetails';
 
 class App extends Component {
   state = {
@@ -26,8 +28,12 @@ class App extends Component {
     this.setState({ productList });
   };
 
+  handleAddInCart = (product) => {
+    addToCart(product);
+  };
+
   render() {
-    const { query, productList } = this.state;
+    const { query, productList, productsInCart } = this.state;
     return (
       <>
         <Header
@@ -37,11 +43,12 @@ class App extends Component {
         />
         <Switch>
           <Route path="/cart">
-            <Cart />
+            <Cart productsInCart={ productsInCart } />
           </Route>
           <Route exact path="/">
-            <Home productList={ productList } />
+            <Home productList={ productList } handleAddInCart={ this.handleAddInCart } />
           </Route>
+          <Route path="/product/:id" component={ ProductDetails } />
         </Switch>
       </>
     );

@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 
 export default class ProductList extends Component {
   render() {
-    const { productList } = this.props;
+    const { productList, handleAddInCart } = this.props;
     return (
       <div>
         {
@@ -12,6 +12,7 @@ export default class ProductList extends Component {
             <ProductCard
               key={ product.id }
               product={ product }
+              handleAddInCart={ handleAddInCart }
             />
           ))
         }
@@ -27,4 +28,9 @@ ProductList.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   })).isRequired,
+  handleAddInCart: PropTypes.func,
+};
+
+ProductList.defaultProps = {
+  handleAddInCart: () => {},
 };
