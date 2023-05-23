@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import Product from './pages/Product';
+import Checkout from './pages/Checkout';
 import { getProductsFromCategoryAndQuery } from './services/api';
 import { addToCart } from './services/localStorage';
 
@@ -54,6 +55,8 @@ class App extends Component {
               handleAddInCart={ this.handleAddInCart }
             />) }
           />
+
+          <Route exact path="/Checkout" component={ Checkout } />
         </Switch>
       </>
     );
