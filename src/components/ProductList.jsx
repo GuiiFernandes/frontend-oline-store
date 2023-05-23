@@ -5,7 +5,7 @@ import ProductCard from './ProductCard';
 
 export default class ProductList extends Component {
   render() {
-    const { productList } = this.props;
+    const { productList, handleAddInCart } = this.props;
     return (
       <div className="product-list-container">
         {
@@ -13,7 +13,9 @@ export default class ProductList extends Component {
             <div key={ product.id }>
               <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
                 <ProductCard
+                  key={ product.id }
                   product={ product }
+                  handleAddInCart={ handleAddInCart }
                 />
               </Link>
             </div>
@@ -31,6 +33,9 @@ ProductList.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   })).isRequired,
+  handleAddInCart: PropTypes.func,
 };
 
-// <Route path="/product/:id" component={ ProductList } />
+ProductList.defaultProps = {
+  handleAddInCart: () => {},
+};
