@@ -20,7 +20,8 @@ export default class Product extends Component {
   }
 
   handleInputChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
+    const validValue = name === 'rating' ? Number(value) : value;
+    this.setState({ [name]: validValue });
   };
 
   handleSubmit = (event) => {
@@ -28,7 +29,7 @@ export default class Product extends Component {
 
     const { email, rating, evaluation, reviews } = this.state;
 
-    if (!email || !rating) {
+    if ((!email.includes('.') && !email.includes('@')) || !rating) {
       this.setState({ errorMsg: 'Campos inválidos' });
       return;
     }
@@ -48,7 +49,7 @@ export default class Product extends Component {
     });
   };
 
-  displayReviews = () => {
+  renderReviews = () => {
     const { reviews } = this.state;
 
     return reviews.map((review, index) => (
@@ -63,6 +64,8 @@ export default class Product extends Component {
   render() {
     const { product, email, rating, evaluation, errorMsg } = this.state;
     const { title, thumbnail, price } = product;
+
+    const ratings = [1, 2, 3, 4, 5];
 
     return (
       <>
@@ -86,22 +89,25 @@ export default class Product extends Component {
               value={ email }
               id="email"
               onChange={ this.handleInputChange }
-              required
+
             />
           </label>
 
-          <label htmlFor="rating">
-            <input
-              type="radio"
-              data-testid="product-detail-evaluation"
-              name="rating"
-              value={ rating }
-              checked={ rating }
-              id={ rating }
-              onChange={ this.handleInputChange }
-              required
-            />
-          </label>
+          {
+            ratings.map((value) => (
+              <label htmlFor="" key={ value }>
+                <input
+                  data-testid={ `${value}-rating` }
+                  type="radio"
+                  name="rating"
+                  value={ value }
+                  onChange={ this.handleInputChange }
+                  checked={ rating === value }
+
+                />
+              </label>
+            ))
+          }
 
           <label htmlFor="evaluation">
             <textarea
@@ -113,13 +119,13 @@ export default class Product extends Component {
             />
           </label>
 
-          {errorMsg && <p data-testid="error-msg">{errorMsg}</p>}
+          {errorMsg && <p data-testid="error-msg">{ errorMsg }</p>}
 
           <button type="submit" data-testid="submit-review-btn">Avaliar</button>
         </form>
 
-        <div>
-          {this.displayReviews()}
+        <div className="reviews">
+          {this.renderReviews()}
         </div>
       </>
 
