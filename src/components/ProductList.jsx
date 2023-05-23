@@ -1,19 +1,24 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
 
 export default class ProductList extends Component {
   render() {
     const { productList, handleAddInCart } = this.props;
     return (
-      <div>
+      <div className="product-list-container">
         {
           productList.map((product) => (
-            <ProductCard
-              key={ product.id }
-              product={ product }
-              handleAddInCart={ handleAddInCart }
-            />
+            <div key={ product.id }>
+              <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
+                <ProductCard
+                  key={ product.id }
+                  product={ product }
+                  handleAddInCart={ handleAddInCart }
+                />
+              </Link>
+            </div>
           ))
         }
       </div>
