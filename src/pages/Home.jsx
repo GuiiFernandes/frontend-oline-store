@@ -8,7 +8,7 @@ class Home extends React.Component {
     const { productList, handleAddInCart } = this.props;
     return (
       <main>
-        <CategoryList />
+        <CategoryList handleAddInCart={ handleAddInCart } />
         { productList.length ? (
           <ProductList
             productList={ productList }

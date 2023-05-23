@@ -7,7 +7,7 @@ export default class ProductCard extends Component {
     const { product, handleAddInCart } = this.props;
     const { title, thumbnail, price, id } = product;
     return (
-      <Link to={ `/product/:${id}` } data-testid="product-detail-link">
+      <Link to={ `/product/${id}` } data-testid="product-detail-link">
         <div data-testid="product">
           <img src={ thumbnail } alt={ title } />
           <h4>{ title }</h4>
