@@ -11,7 +11,7 @@ export default class ProductList extends Component {
         {
           productList.map((product) => (
             <div key={ product.id }>
-              <Link to={ `/product/${product.id}` }>
+              <Link data-testid="product-detail-link" to={ `/product/${product.id}` }>
                 <ProductCard
                   product={ product }
                 />

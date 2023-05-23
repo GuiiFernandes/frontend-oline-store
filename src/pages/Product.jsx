@@ -1,13 +1,24 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { getProductById } from '../services/api';
 
 export default class Product extends Component {
+  state = {
+    product: {},
+  };
+
+  async componentDidMount() {
+    const { match: { params } } = this.props;
+    const product = await getProductById(params.id);
+    this.setState({ product });
+  }
+
   render() {
-    const { product } = this.props;
+    const { product } = this.state;
     const { title, thumbnail, price } = product;
 
     return (
-      <div data-testid="product-detail-link">
+      <div>
         <img
           data-testid="product-detail-image"
           src={ thumbnail }
@@ -30,10 +41,9 @@ export default class Product extends Component {
 }
 
 Product.propTypes = {
-  product: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };

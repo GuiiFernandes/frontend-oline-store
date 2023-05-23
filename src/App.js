@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
+import Product from './pages/Product';
 import { getProductsFromCategoryAndQuery } from './services/api';
 
 class App extends Component {
@@ -21,7 +22,7 @@ class App extends Component {
   displayProducts = async (event) => {
     event.preventDefault();
     const { query } = this.state;
-    const productList = await getProductsFromCategoryAndQuery('', query);
+    const productList = (await getProductsFromCategoryAndQuery('', query)).results;
     this.setState({ productList });
   };
 
@@ -41,6 +42,7 @@ class App extends Component {
           <Route exact path="/">
             <Home productList={ productList } />
           </Route>
+          <Route path="/product/:id" component={ Product } />
         </Switch>
       </>
     );
