@@ -22,8 +22,8 @@ export default class CategoryList extends Component {
 
   async getProducts(event) {
     const categoryId = event.target.id;
-    const products = await getProductsFromCategoryAndQuery(categoryId, '');
-    this.setState({ products: products.results });
+    const products = (await getProductsFromCategoryAndQuery(categoryId, '')).results;
+    this.setState({ products });
   }
 
   render() {
