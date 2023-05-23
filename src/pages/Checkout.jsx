@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
 
 export default class Checkout extends Component {
-  state = {
-    productsInCart: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      campos: {
+        fullname: '',
+        email: '',
+        cpf: '',
+        phone: '',
+        cep: '',
+        address: '',
+        payment: '',
+      },
+      productsInCart: [],
+      mostrarErro: false,
+    };
+  }
 
   componentDidMount() {
     this.setState({
@@ -11,8 +24,31 @@ export default class Checkout extends Component {
     });
   }
 
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState((prevState) => ({
+      campos: {
+        ...prevState.campos,
+        [name]: value,
+      },
+    }));
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Verifica se algum campo está vazio
+    const { campos } = this.state;
+    const { fullname, email, cpf, phone, cep, address, payment } = campos;
+    const camposInvalidos = !fullname
+    || !email || !cpf || !phone || !cep || !address || !payment;
+
+    // Exibe a mensagem de erro se houver campos inválidos
+    this.setState({ mostrarErro: camposInvalidos });
+  };
+
   render() {
-    const { productsInCart } = this.state;
+    const { productsInCart, campos, mostrarErro } = this.state;
     return (
       <>
         <section>
@@ -25,35 +61,77 @@ export default class Checkout extends Component {
             </div>
           )) }
         </section>
-        <form>
+        <form onSubmit={ this.handleSubmit }>
           <div>
             <label htmlFor="fullname">Nome Completo:</label>
-            <input type="text" id="fullname" data-testid="checkout-fullname" required />
+            <input
+              type="text"
+              id="fullname"
+              data-testid="checkout-fullname"
+              value={ campos.fullname }
+              onChange={ this.handleChange }
+              required
+            />
           </div>
 
           <div>
             <label htmlFor="email">Email:</label>
-            <input type="email" id="email" data-testid="checkout-email" required />
+            <input
+              type="email"
+              id="email"
+              data-testid="checkout-email"
+              value={ campos.email }
+              onChange={ this.handleChange }
+              required
+            />
           </div>
 
           <div>
             <label htmlFor="cpf">CPF:</label>
-            <input type="text" id="cpf" data-testid="checkout-cpf" required />
+            <input
+              type="text"
+              id="cpf"
+              data-testid="checkout-cpf"
+              value={ campos.cpf }
+              onChange={ this.handleChange }
+              required
+            />
           </div>
 
           <div>
             <label htmlFor="phone">Telefone:</label>
-            <input type="text" id="phone" data-testid="checkout-phone" required />
+            <input
+              type="text"
+              id="phone"
+              data-testid="checkout-phone"
+              value={ campos.phone }
+              onChange={ this.handleChange }
+              required
+            />
           </div>
 
           <div>
             <label htmlFor="cep">CEP:</label>
-            <input type="text" id="cep" data-testid="checkout-cep" required />
+            <input
+              type="text"
+              id="cep"
+              data-testid="checkout-cep"
+              value={ campos.cep }
+              onChange={ this.handleChange }
+              required
+            />
           </div>
 
           <div>
             <label htmlFor="address">Endereço:</label>
-            <input type="text" id="address" data-testid="checkout-address" required />
+            <input
+              type="text"
+              id="address"
+              data-testid="checkout-address"
+              value={ campos.address }
+              onChange={ this.handleChange }
+              required
+            />
           </div>
 
           <div>
@@ -64,6 +142,8 @@ export default class Checkout extends Component {
                 id="ticket"
                 name="payment"
                 data-testid="ticket-payment"
+                checked={ campos.payment === 'Boleto' }
+                onChange={ this.handleChange }
                 required
               />
               <label htmlFor="ticket">Boleto</label>
@@ -74,6 +154,8 @@ export default class Checkout extends Component {
                 id="visa"
                 name="payment"
                 data-testid="visa-payment"
+                checked={ campos.payment === 'Visa' }
+                onChange={ this.handleChange }
                 required
               />
               <label htmlFor="visa">Visa</label>
@@ -84,6 +166,8 @@ export default class Checkout extends Component {
                 id="master"
                 name="payment"
                 data-testid="master-payment"
+                checked={ campos.payment === 'MasterCard' }
+                onChange={ this.handleChange }
                 required
               />
               <label htmlFor="master">MasterCard</label>
@@ -94,11 +178,14 @@ export default class Checkout extends Component {
                 id="elo"
                 name="payment"
                 data-testid="elo-payment"
+                checked={ campos.payment === 'Elo' }
+                onChange={ this.handleChange }
                 required
               />
               <label htmlFor="elo">Elo</label>
             </div>
           </div>
+          { mostrarErro && <div data-testid="error-msg">Campos inválidos</div> }
           <button type="submit">Enviar</button>
         </form>
       </>
