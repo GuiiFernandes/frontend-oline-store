@@ -20,7 +20,10 @@ export const addToCart = (product) => {
 export const changeQuantity = (product, mult) => {
   const cart = getCart();
   const productChangeQtd = cart.find(({ id }) => id === product.id);
-  productChangeQtd.quantity += mult * 1;
+  const newQuantity = productChangeQtd.quantity + (mult * 1);
+  if (newQuantity <= productChangeQtd.available_quantity) {
+    productChangeQtd.quantity = newQuantity;
+  }
   setCart(cart);
   return cart;
 };

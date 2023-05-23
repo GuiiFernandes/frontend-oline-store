@@ -9,6 +9,11 @@ import { getProductsFromCategoryAndQuery } from './services/api';
 import { addToCart } from './services/localStorage';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.updateCartCount = this.updateCartCount.bind(this);
+  }
+
   state = {
     query: '',
     productList: [],
@@ -55,7 +60,10 @@ class App extends Component {
         />
         <Switch>
           <Route path="/cart">
-            <Cart productsInCart={ productsInCart } />
+            <Cart
+              productsInCart={ productsInCart }
+              updateCartCount={ this.updateCartCount }
+            />
           </Route>
           <Route exact path="/">
             <Home productList={ productList } handleAddInCart={ this.handleAddInCart } />
