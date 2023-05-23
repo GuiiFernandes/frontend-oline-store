@@ -47,7 +47,7 @@ export default class CategoryList extends Component {
             </div>)) }
         </fieldset>
         <div>
-          <ProductList query={ products } />
+          <ProductList productList={ products } />
         </div>
       </aside>
     );
