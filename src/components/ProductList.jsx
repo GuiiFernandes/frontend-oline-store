@@ -1,18 +1,22 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
 
 export default class ProductList extends Component {
   render() {
     const { productList } = this.props;
     return (
-      <div>
+      <div className="product-list-container">
         {
           productList.map((product) => (
-            <ProductCard
-              key={ product.id }
-              product={ product }
-            />
+            <div key={ product.id }>
+              <Link to={ `/product/${product.id}` }>
+                <ProductCard
+                  product={ product }
+                />
+              </Link>
+            </div>
           ))
         }
       </div>
@@ -28,3 +32,5 @@ ProductList.propTypes = {
     price: PropTypes.number.isRequired,
   })).isRequired,
 };
+
+// <Route path="/product/:id" component={ ProductList } />
