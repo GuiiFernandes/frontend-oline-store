@@ -15,6 +15,8 @@ export default class ProductList extends Component {
                   <img src={ product.thumbnail } alt={ product.title } />
                   <h4>{ product.title }</h4>
                   <p>{ product.price }</p>
+                  { product.shipping.free_shipping
+                  && <p data-testid="free-shipping">Frete grátis</p>}
                 </Link>
                 <button
                   data-testid="product-add-to-cart"

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { changeQuantity, removeProduct } from '../services/localStorage';
 
@@ -14,15 +15,19 @@ export default class Cart extends Component {
   }
 
   handleChangeQuantity = (product, mult) => {
+    const { updateCartCount } = this.props;
     this.setState({
       productsInCart: changeQuantity(product, mult),
     });
+    updateCartCount();
   };
 
   handleRemoveProduct = (product) => {
+    const { updateCartCount } = this.props;
     this.setState(({ productsInCart }) => ({
       productsInCart: removeProduct(product, productsInCart),
     }));
+    updateCartCount();
   };
 
   render() {
@@ -75,3 +80,7 @@ export default class Cart extends Component {
     );
   }
 }
+
+Cart.propTypes = {
+  updateCartCount: PropTypes.func.isRequired,
+};
