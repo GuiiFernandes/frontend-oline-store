@@ -47,7 +47,13 @@ class App extends Component {
           <Route exact path="/">
             <Home productList={ productList } handleAddInCart={ this.handleAddInCart } />
           </Route>
-          <Route path="/product/:id" component={ Product } />
+          <Route
+            path="/product/:id"
+            render={ (props) => (<Product
+              { ...props }
+              handleAddInCart={ this.handleAddInCart }
+            />) }
+          />
         </Switch>
       </>
     );
