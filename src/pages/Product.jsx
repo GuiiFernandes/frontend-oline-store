@@ -26,15 +26,6 @@ export default class Product extends Component {
         />
         <h1 data-testid="product-detail-name">{title}</h1>
         <p data-testid="product-detail-price">{price}</p>
-
-        <button
-          data-testid="shopping-cart-button"
-          type="button"
-        >
-          Adicionar ao carrinho
-
-        </button>
-
       </div>
     );
   }
