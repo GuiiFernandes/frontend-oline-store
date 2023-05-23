@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import ProductList from './ProductList';
 
@@ -26,6 +27,7 @@ export default class CategoryList extends Component {
   }
 
   render() {
+    const { handleAddInCart } = this.props;
     const { categories, products } = this.state;
     return (
       <aside>
@@ -47,9 +49,13 @@ export default class CategoryList extends Component {
             </div>)) }
         </fieldset>
         <div>
-          <ProductList productList={ products } />
+          <ProductList handleAddInCart={ handleAddInCart } productList={ products } />
         </div>
       </aside>
     );
   }
 }
+
+CategoryList.propTypes = {
+  handleAddInCart: PropTypes.func.isRequired,
+};
