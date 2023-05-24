@@ -77,7 +77,7 @@ export default class Product extends Component {
     const { handleAddInCart } = this.props;
     const { product, email, rating, evaluation, errorMsg } = this.state;
     const { title, thumbnail, price } = product;
-    
+
     const ratings = [...Array(MAX_RATING).keys()].map((index) => index + 1);
 
     return (
