@@ -27,7 +27,7 @@ export default class CategoryList extends Component {
   }
 
   render() {
-    const { handleAddInCart } = this.props;
+    const { handleAddInCart, sort } = this.props;
     const { categories, products } = this.state;
     return (
       <aside>
@@ -49,7 +49,11 @@ export default class CategoryList extends Component {
             </div>)) }
         </fieldset>
         <div>
-          <ProductList handleAddInCart={ handleAddInCart } productList={ products } />
+          <ProductList
+            handleAddInCart={ handleAddInCart }
+            productList={ products }
+            sort={ sort }
+          />
         </div>
       </aside>
     );
@@ -58,4 +62,5 @@ export default class CategoryList extends Component {
 
 CategoryList.propTypes = {
   handleAddInCart: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
 };

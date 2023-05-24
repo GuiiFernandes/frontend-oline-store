@@ -5,14 +5,15 @@ import CategoryList from '../components/CategoryList';
 
 class Home extends React.Component {
   render() {
-    const { productList, handleAddInCart } = this.props;
+    const { productList, handleAddInCart, sort } = this.props;
     return (
       <main>
-        <CategoryList handleAddInCart={ handleAddInCart } />
+        <CategoryList handleAddInCart={ handleAddInCart } sort={ sort } />
         { productList.length ? (
           <ProductList
             productList={ productList }
             handleAddInCart={ handleAddInCart }
+            sort={ sort }
           />
         ) : (
           <p>Nenhum produto foi encontrado</p>
@@ -33,6 +34,7 @@ Home.propTypes = {
     price: PropTypes.number.isRequired,
   })).isRequired,
   handleAddInCart: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
 };
 
 export default Home;
