@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default class Checkout extends Component {
   constructor(props) {
@@ -16,7 +16,6 @@ export default class Checkout extends Component {
       },
       productsInCart: [],
       mostrarErro: false,
-      redirectToHome: false,
     };
   }
 
@@ -38,25 +37,22 @@ export default class Checkout extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
-    // Verifica se algum campo está vazio
     const { campos } = this.state;
+    const { history, updateCartCount } = this.props;
     const { fullname, email, cpf, phone, cep, address, payment } = campos;
     const camposInvalidos = !fullname
     || !email || !cpf || !phone || !cep || !address || !payment;
-
-    // Exibe a mensagem de erro se houver campos inválidos
-    this.setState({ mostrarErro: camposInvalidos });
-    if (!camposInvalidos) {
-      this.setState({ redirectToHome: true });
+    if (camposInvalidos) {
+      this.setState({ mostrarErro: camposInvalidos });
+      return;
     }
+    localStorage.setItem('cart', JSON.stringify([]));
+    updateCartCount();
+    history.push('/');
   };
 
   render() {
     const { productsInCart, campos, mostrarErro } = this.state;
-    if (redirectToHome) {
-      return <Redirect to="/" />;
-    }
     return (
       <>
         <section>
@@ -204,9 +200,20 @@ export default class Checkout extends Component {
             </div>
           </div>
           { mostrarErro && <div data-testid="error-msg">Campos inválidos</div> }
-          <button type="submit" data-testid="checkout-btn">Enviar</button>
+          <button
+            onClick={ this.handleSubmit }
+            type="submit"
+            data-testid="checkout-btn"
+          >
+            Enviar
+          </button>
         </form>
       </>
     );
   }
 }
+
+Checkout.propTypes = {
+  history: PropTypes.instanceOf(Object).isRequired,
+  updateCartCount: PropTypes.func.isRequired,
+};

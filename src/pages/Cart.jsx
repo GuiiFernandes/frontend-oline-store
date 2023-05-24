@@ -77,7 +77,12 @@ export default class Cart extends Component {
         </section>
         <nav>
           <Link to="./Checkout">
-            <button data-testid="checkout-products">Checkout</button>
+            <button
+              disabled={ !productsInCart.length }
+              data-testid="checkout-products"
+            >
+              Checkout
+            </button>
           </Link>
         </nav>
       </main>
