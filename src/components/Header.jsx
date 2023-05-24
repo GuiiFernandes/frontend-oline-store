@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default class Header extends Component {
   render() {
-    const { query, handleChange, displayProducts, cartCount } = this.props;
+    const { query, handleChange, displayProducts, cartCount, sort } = this.props;
     return (
       <header>
         <form>
@@ -26,6 +26,20 @@ export default class Header extends Component {
             Buscar
 
           </button>
+          <select
+            name="sort"
+            id="sort"
+            value={ sort }
+            onChange={ handleChange }
+          >
+            <option value="">Ordenar</option>
+            <option value="price_desc">
+              Maior preço
+            </option>
+            <option value="price_asc">
+              Menor preço
+            </option>
+          </select>
         </form>
         <h1>Front-End Online Store</h1>
         <Link to="/cart" data-testid="shopping-cart-button">
@@ -42,4 +56,5 @@ Header.propTypes = {
   handleChange: PropTypes.func.isRequired,
   displayProducts: PropTypes.func.isRequired,
   cartCount: PropTypes.number.isRequired,
+  sort: PropTypes.string.isRequired,
 };

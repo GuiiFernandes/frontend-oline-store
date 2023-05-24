@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom';
 
 export default class ProductList extends Component {
   render() {
-    const { productList, handleAddInCart } = this.props;
+    const { productList, handleAddInCart, sort } = this.props;
+
+    if (sort === 'price_asc') productList.sort((a, b) => a.price - b.price);
+    else if (sort === 'price_desc') {
+      productList.sort((a, b) => a.price - b.price).reverse();
+    }
+
     return (
       <div className="product-list-container">
         {
@@ -41,6 +47,7 @@ ProductList.propTypes = {
     price: PropTypes.number.isRequired,
   })).isRequired,
   handleAddInCart: PropTypes.func,
+  sort: PropTypes.string.isRequired,
 };
 
 ProductList.defaultProps = {

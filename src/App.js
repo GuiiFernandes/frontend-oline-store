@@ -19,6 +19,7 @@ class App extends Component {
     query: '',
     productList: [],
     cartCount: 0,
+    sort: '',
   };
 
   componentDidMount() {
@@ -50,7 +51,7 @@ class App extends Component {
   }
 
   render() {
-    const { query, productList, productsInCart, cartCount } = this.state;
+    const { query, productList, productsInCart, cartCount, sort } = this.state;
     return (
       <>
         <Header
@@ -58,6 +59,7 @@ class App extends Component {
           handleChange={ this.handleChange }
           query={ query }
           displayProducts={ this.displayProducts }
+          sort={ sort }
         />
         <Switch>
           <Route path="/cart">
@@ -67,7 +69,11 @@ class App extends Component {
             />
           </Route>
           <Route exact path="/">
-            <Home productList={ productList } handleAddInCart={ this.handleAddInCart } />
+            <Home
+              productList={ productList }
+              handleAddInCart={ this.handleAddInCart }
+              sort={ sort }
+            />
           </Route>
           <Route
             path="/product/:id"
