@@ -19,6 +19,7 @@ class App extends Component {
     query: '',
     productList: [],
     cartCount: 0,
+    noSearch: true,
   };
 
   componentDidMount() {
@@ -31,11 +32,16 @@ class App extends Component {
     });
   };
 
-  displayProducts = async (event) => {
+  getProducts = async (event) => {
     event.preventDefault();
     const { query } = this.state;
-    const productList = (await getProductsFromCategoryAndQuery('', query)).results;
-    this.setState({ productList });
+    const categoryId = event.target.type === 'radio' ? event.target.id : '';
+    const productList = (await getProductsFromCategoryAndQuery(categoryId, query));
+    this.setState({
+      productList: productList.results,
+      noSearch: false,
+      query: '',
+    });
   };
 
   handleAddInCart = (product) => {
@@ -50,14 +56,14 @@ class App extends Component {
   }
 
   render() {
-    const { query, productList, productsInCart, cartCount } = this.state;
+    const { query, productList, productsInCart, cartCount, noSearch } = this.state;
     return (
       <>
         <Header
           cartCount={ cartCount }
           handleChange={ this.handleChange }
           query={ query }
-          displayProducts={ this.displayProducts }
+          getProducts={ this.getProducts }
         />
         <Switch>
           <Route path="/cart">
@@ -67,7 +73,12 @@ class App extends Component {
             />
           </Route>
           <Route exact path="/">
-            <Home productList={ productList } handleAddInCart={ this.handleAddInCart } />
+            <Home
+              getProducts={ this.getProducts }
+              productList={ productList }
+              handleAddInCart={ this.handleAddInCart }
+              noSearch={ noSearch }
+            />
           </Route>
           <Route
             path="/product/:id"

@@ -8,6 +8,18 @@ body > div {
 
 .main {
   display: flex;
+  margin-top: 65px;
   min-height: calc(100vh - 87px);
   width: 100%;
+}
+
+a {
+  color: var(--light-gray);
+  text-decoration: none;
+}
+
+.cart-container, .btn-container, .search, .logo-container, .count-cart, .header {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }

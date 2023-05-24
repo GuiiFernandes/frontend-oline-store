@@ -2,15 +2,19 @@
 
 :root {
 
-  --dark-blue: #1c658c;
+  --blue: #55ffe2;
 
-  --blue: #398ab9;
+  --green: #a7fd2a;
 
-  --gray: #d8d2cb;
+  --pink: #ff3b93;
 
-  --light-gray: #eee;
+  --gray: #cecece;
 
-  --purple: #9145b6;
+  --light-gray: #f3f3f3;
+
+  --purple: #ae3dff;
+
+  --dark-purple: #37023a;
 
 }
 
