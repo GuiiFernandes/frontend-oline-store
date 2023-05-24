@@ -12,13 +12,18 @@ export default class Product extends Component {
     evaluation: '',
     reviews: [],
     errorMsg: '',
-
   };
 
   async componentDidMount() {
     const { match: { params } } = this.props;
     const product = await getProductById(params.id);
     this.setState({ product });
+
+    // Retrieve reviews from local storage
+    const storedReviews = localStorage.getItem(params.id);
+    if (storedReviews) {
+      this.setState({ reviews: JSON.parse(storedReviews) });
+    }
   }
 
   handleInputChange = ({ target: { name, value } }) => {
@@ -29,7 +34,7 @@ export default class Product extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { email, rating, evaluation, reviews } = this.state;
+    const { email, rating, evaluation, reviews, product } = this.state;
 
     if ((!email.includes('.') && !email.includes('@')) || !rating) {
       this.setState({ errorMsg: 'Campos inválidos' });
@@ -37,13 +42,18 @@ export default class Product extends Component {
     }
 
     const newReview = {
-      email: email.toLowerCase(),
+      email,
       rating: Number(rating),
-      evaluation: evaluation.toLowerCase(),
+      evaluation,
     };
 
+    const updatedReviews = [...reviews, newReview];
+
+    // Save reviews in local storage
+    localStorage.setItem(product.id, JSON.stringify(updatedReviews));
+
     this.setState({
-      reviews: [...reviews, newReview],
+      reviews: updatedReviews,
       email: '',
       rating: 0,
       evaluation: '',
@@ -67,7 +77,7 @@ export default class Product extends Component {
     const { handleAddInCart } = this.props;
     const { product, email, rating, evaluation, errorMsg } = this.state;
     const { title, thumbnail, price } = product;
-
+    
     const ratings = [...Array(MAX_RATING).keys()].map((index) => index + 1);
 
     return (
@@ -102,6 +112,16 @@ export default class Product extends Component {
             />
           </label>
 
+          <label htmlFor="evaluation">
+            <textarea
+              data-testid="product-detail-evaluation"
+              name="evaluation"
+              value={ evaluation }
+              id="evaluation"
+              onChange={ this.handleInputChange }
+            />
+          </label>
+
           {
             ratings.map((value) => (
               <label htmlFor="" key={ value }>
@@ -117,16 +137,6 @@ export default class Product extends Component {
               </label>
             ))
           }
-
-          <label htmlFor="evaluation">
-            <textarea
-              data-testid="product-detail-evaluation"
-              name="evaluation"
-              value={ evaluation }
-              id="evaluation"
-              onChange={ this.handleInputChange }
-            />
-          </label>
 
           {errorMsg && <p data-testid="error-msg">{ errorMsg }</p>}
 
