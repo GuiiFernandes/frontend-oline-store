@@ -7,7 +7,7 @@ class Home extends React.Component {
   render() {
     const { productList, handleAddInCart } = this.props;
     return (
-      <main>
+      <main className="main">
         <CategoryList handleAddInCart={ handleAddInCart } />
         { productList.length ? (
           <ProductList

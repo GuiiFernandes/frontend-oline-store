@@ -1,0 +1,21 @@
+.header {
+  align-items: center;
+  background-color: var(--dark-blue);
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.logo-container {
+  max-width: 80px;
+}
+
+.logo-p {
+  max-width: 100%;
+}
+
+.logo-g {
+  display: none;
+  max-width: 100%;
+}

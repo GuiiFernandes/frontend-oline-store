@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import ProductList from './ProductList';
+import '../css/CategoryList.css';
 
 export default class CategoryList extends Component {
   constructor() {
@@ -30,7 +31,7 @@ export default class CategoryList extends Component {
     const { handleAddInCart } = this.props;
     const { categories, products } = this.state;
     return (
-      <aside>
+      <aside className="aside">
         <fieldset>
           { categories.map((category, index) => (
             <div key={ index }>
