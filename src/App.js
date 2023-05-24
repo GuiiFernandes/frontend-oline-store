@@ -77,7 +77,13 @@ class App extends Component {
             />) }
           />
 
-          <Route exact path="/Checkout" component={ Checkout } />
+          <Route
+            path="/Checkout"
+            render={ (props) => (<Checkout
+              { ...props }
+              updateCartCount={ this.updateCartCount }
+            />) }
+          />
         </Switch>
       </>
     );
