@@ -75,6 +75,11 @@ export default class Cart extends Component {
               <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
             ) }
         </section>
+        <nav>
+          <Link to="./Checkout">
+            <button data-testid="checkout-products">Checkout</button>
+          </Link>
+        </nav>
       </main>
     );
   }
