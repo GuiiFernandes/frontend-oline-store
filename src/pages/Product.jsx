@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { getProductById } from '../services/api';
 
+const MAX_RATING = 5;
+
 export default class Product extends Component {
   state = {
     product: {},
@@ -75,14 +77,8 @@ export default class Product extends Component {
     const { handleAddInCart } = this.props;
     const { product, email, rating, evaluation, errorMsg } = this.state;
     const { title, thumbnail, price } = product;
-
-    const firstRating = 1;
-    const secondRating = 2;
-    const thirdRating = 3;
-    const fourthRating = 4;
-    const fifthRating = 5;
-
-    const ratings = [firstRating, secondRating, thirdRating, fourthRating, fifthRating];
+    
+    const ratings = [...Array(MAX_RATING).keys()].map((index) => index + 1);
 
     return (
       <>

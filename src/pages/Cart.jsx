@@ -24,9 +24,8 @@ export default class Cart extends Component {
 
   handleRemoveProduct = (product) => {
     const { updateCartCount } = this.props;
-    this.setState(({ productsInCart }) => ({
-      productsInCart: removeProduct(product, productsInCart),
-    }));
+    const { productsInCart } = this.state;
+    this.setState({ productsInCart: removeProduct(product, productsInCart) });
     updateCartCount();
   };
 
