@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class Checkout extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export default class Checkout extends Component {
       },
       productsInCart: [],
       mostrarErro: false,
+      redirectToHome: false,
     };
   }
 
@@ -45,10 +47,16 @@ export default class Checkout extends Component {
 
     // Exibe a mensagem de erro se houver campos inválidos
     this.setState({ mostrarErro: camposInvalidos });
+    if (!camposInvalidos) {
+      this.setState({ redirectToHome: true });
+    }
   };
 
   render() {
     const { productsInCart, campos, mostrarErro } = this.state;
+    if (redirectToHome) {
+      return <Redirect to="/" />;
+    }
     return (
       <>
         <section>
@@ -56,7 +64,7 @@ export default class Checkout extends Component {
           { productsInCart.map(({ title, thumbnail, price, id }) => (
             <div key={ id }>
               <img src={ thumbnail } alt={ title } />
-              <span data-testid="shopping-cart-product-name">{ title }</span>
+              <span>{ title }</span>
               <span>{ price }</span>
             </div>
           )) }
@@ -65,6 +73,7 @@ export default class Checkout extends Component {
           <div>
             <label htmlFor="fullname">Nome Completo:</label>
             <input
+              name="fullname"
               type="text"
               id="fullname"
               data-testid="checkout-fullname"
@@ -77,6 +86,7 @@ export default class Checkout extends Component {
           <div>
             <label htmlFor="email">Email:</label>
             <input
+              name="email"
               type="email"
               id="email"
               data-testid="checkout-email"
@@ -89,6 +99,7 @@ export default class Checkout extends Component {
           <div>
             <label htmlFor="cpf">CPF:</label>
             <input
+              name="cpf"
               type="text"
               id="cpf"
               data-testid="checkout-cpf"
@@ -101,6 +112,7 @@ export default class Checkout extends Component {
           <div>
             <label htmlFor="phone">Telefone:</label>
             <input
+              name="phone"
               type="text"
               id="phone"
               data-testid="checkout-phone"
@@ -113,6 +125,7 @@ export default class Checkout extends Component {
           <div>
             <label htmlFor="cep">CEP:</label>
             <input
+              name="cep"
               type="text"
               id="cep"
               data-testid="checkout-cep"
@@ -125,6 +138,7 @@ export default class Checkout extends Component {
           <div>
             <label htmlFor="address">Endereço:</label>
             <input
+              name="address"
               type="text"
               id="address"
               data-testid="checkout-address"
@@ -142,6 +156,7 @@ export default class Checkout extends Component {
                 id="ticket"
                 name="payment"
                 data-testid="ticket-payment"
+                value="Boleto"
                 checked={ campos.payment === 'Boleto' }
                 onChange={ this.handleChange }
                 required
@@ -154,6 +169,7 @@ export default class Checkout extends Component {
                 id="visa"
                 name="payment"
                 data-testid="visa-payment"
+                value="Visa"
                 checked={ campos.payment === 'Visa' }
                 onChange={ this.handleChange }
                 required
@@ -166,6 +182,7 @@ export default class Checkout extends Component {
                 id="master"
                 name="payment"
                 data-testid="master-payment"
+                value="MasterCard"
                 checked={ campos.payment === 'MasterCard' }
                 onChange={ this.handleChange }
                 required
@@ -178,6 +195,7 @@ export default class Checkout extends Component {
                 id="elo"
                 name="payment"
                 data-testid="elo-payment"
+                value="Elo"
                 checked={ campos.payment === 'Elo' }
                 onChange={ this.handleChange }
                 required
@@ -186,7 +204,7 @@ export default class Checkout extends Component {
             </div>
           </div>
           { mostrarErro && <div data-testid="error-msg">Campos inválidos</div> }
-          <button type="submit">Enviar</button>
+          <button type="submit" data-testid="checkout-btn">Enviar</button>
         </form>
       </>
     );
