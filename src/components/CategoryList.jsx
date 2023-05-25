@@ -1,41 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
-import ProductList from './ProductList';
 
 export default class CategoryList extends Component {
-  constructor() {
-    super();
-
-    this.getProducts = this.getProducts.bind(this);
-
-    this.state = {
-      categories: [],
-      products: [],
-    };
-  }
-
-  async componentDidMount() {
-    const categories = await getCategories();
-    this.setState({ categories });
-  }
-
-  async getProducts(event) {
-    const categoryId = event.target.id;
-    const products = (await getProductsFromCategoryAndQuery(categoryId, '')).results;
-    this.setState({ products });
-  }
-
   render() {
-    const { handleAddInCart, sort } = this.props;
-    const { categories, products } = this.state;
+    const { getProducts, categories } = this.props;
     return (
-      <aside>
+      <aside className="aside">
         <fieldset>
           { categories.map((category, index) => (
             <div key={ index }>
               <input
-                onChange={ this.getProducts }
+                onChange={ getProducts }
                 name="category"
                 type="radio"
                 id={ category.id }
@@ -48,19 +23,12 @@ export default class CategoryList extends Component {
               </label>
             </div>)) }
         </fieldset>
-        <div>
-          <ProductList
-            handleAddInCart={ handleAddInCart }
-            productList={ products }
-            sort={ sort }
-          />
-        </div>
       </aside>
     );
   }
 }
 
 CategoryList.propTypes = {
-  handleAddInCart: PropTypes.func.isRequired,
-  sort: PropTypes.string.isRequired,
+  categories: PropTypes.instanceOf(Array).isRequired,
+  getProducts: PropTypes.func.isRequired,
 };

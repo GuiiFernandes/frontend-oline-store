@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import './App.css';
 import Header from './components/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
@@ -8,6 +7,7 @@ import Product from './pages/Product';
 import Checkout from './pages/Checkout';
 import { getProductsFromCategoryAndQuery } from './services/api';
 import { addToCart } from './services/localStorage';
+import './css/App.css';
 
 class App extends Component {
   constructor() {
@@ -19,6 +19,7 @@ class App extends Component {
     query: '',
     productList: [],
     cartCount: 0,
+    noSearch: true,
     sort: '',
   };
 
@@ -32,11 +33,16 @@ class App extends Component {
     });
   };
 
-  displayProducts = async (event) => {
+  getProducts = async (event) => {
     event.preventDefault();
     const { query } = this.state;
-    const productList = (await getProductsFromCategoryAndQuery('', query)).results;
-    this.setState({ productList });
+    const categoryId = event.target.type === 'radio' ? event.target.id : '';
+    const productList = (await getProductsFromCategoryAndQuery(categoryId, query));
+    this.setState({
+      productList: productList.results,
+      noSearch: false,
+      query: '',
+    });
   };
 
   handleAddInCart = (product) => {
@@ -51,14 +57,14 @@ class App extends Component {
   }
 
   render() {
-    const { query, productList, productsInCart, cartCount, sort } = this.state;
+    const { query, productList, productsInCart, cartCount, noSearch, sort } = this.state;
     return (
       <>
         <Header
           cartCount={ cartCount }
           handleChange={ this.handleChange }
           query={ query }
-          displayProducts={ this.displayProducts }
+          getProducts={ this.getProducts }
           sort={ sort }
         />
         <Switch>
@@ -70,8 +76,10 @@ class App extends Component {
           </Route>
           <Route exact path="/">
             <Home
+              getProducts={ this.getProducts }
               productList={ productList }
               handleAddInCart={ this.handleAddInCart }
+              noSearch={ noSearch }
               sort={ sort }
             />
           </Route>
