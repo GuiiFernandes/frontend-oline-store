@@ -8,6 +8,7 @@ import { getCategories } from '../services/api';
 class Home extends React.Component {
   state = {
     categories: [],
+    categoriesOpen: false,
   };
 
   async componentDidMount() {
@@ -15,9 +16,14 @@ class Home extends React.Component {
     this.setState({ categories });
   }
 
+  visibleCategories = () => {
+    this.setState(({ categoriesOpen }) => ({ categoriesOpen: !categoriesOpen }));
+  };
+
   render() {
     const { categories } = this.state;
-    const { productList, handleAddInCart, getProducts, noSearch, sort } = this.props;
+    const { productList, handleAddInCart, getProducts,
+      noSearch, sort, handleChange } = this.props;
     return (
       <main className="main">
         <CategoryList
@@ -26,11 +32,36 @@ class Home extends React.Component {
           getProducts={ getProducts }
         />
         { productList.length ? (
-          <ProductList
-            productList={ productList }
-            handleAddInCart={ handleAddInCart }
-            sort={ sort }
-          />
+          <div className="produts-container">
+            <div>
+              <button
+                type="button"
+                onClick={ this.visibleCategories }
+                className="categories"
+              >
+                Categorias
+              </button>
+              <select
+                name="sort"
+                id="sort"
+                value={ sort }
+                onChange={ handleChange }
+              >
+                <option value="">Ordenar</option>
+                <option value="price_desc">
+                  Maior preço
+                </option>
+                <option value="price_asc">
+                  Menor preço
+                </option>
+              </select>
+            </div>
+            <ProductList
+              productList={ productList }
+              handleAddInCart={ handleAddInCart }
+              sort={ sort }
+            />
+          </div>
         ) : noSearch || (
           <section className="home-container">
             <p>Nenhum produto foi encontrado</p>
@@ -61,6 +92,7 @@ Home.propTypes = {
   getProducts: PropTypes.func.isRequired,
   noSearch: PropTypes.bool.isRequired,
   sort: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default Home;

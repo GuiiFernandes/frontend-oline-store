@@ -65,7 +65,6 @@ class App extends Component {
           handleChange={ this.handleChange }
           query={ query }
           getProducts={ this.getProducts }
-          sort={ sort }
         />
         <Switch>
           <Route path="/cart">
@@ -79,6 +78,7 @@ class App extends Component {
               getProducts={ this.getProducts }
               productList={ productList }
               handleAddInCart={ this.handleAddInCart }
+              handleChange={ this.handleChange }
               noSearch={ noSearch }
               sort={ sort }
             />

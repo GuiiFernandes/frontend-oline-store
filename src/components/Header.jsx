@@ -8,7 +8,7 @@ import '../css/Header.css';
 
 export default class Header extends Component {
   render() {
-    const { query, handleChange, getProducts, cartCount, sort } = this.props;
+    const { query, handleChange, getProducts, cartCount } = this.props;
     return (
       <header className="header">
         <div className="logo-container">
@@ -33,20 +33,6 @@ export default class Header extends Component {
           >
             <BsSearch size="20px" />
           </button>
-          <select
-            name="sort"
-            id="sort"
-            value={ sort }
-            onChange={ handleChange }
-          >
-            <option value="">Ordenar</option>
-            <option value="price_desc">
-              Maior preço
-            </option>
-            <option value="price_asc">
-              Menor preço
-            </option>
-          </select>
         </form>
         <Link to="/cart" data-testid="shopping-cart-button">
           <div className="cart-container">
@@ -69,5 +55,4 @@ Header.propTypes = {
   handleChange: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   cartCount: PropTypes.number.isRequired,
-  sort: PropTypes.string.isRequired,
 };

@@ -21,5 +21,4 @@ a {
 .cart-container, .btn-container, .search, .logo-container, .count-cart, .header {
   align-items: center;
   display: flex;
-  justify-content: center;
 }
