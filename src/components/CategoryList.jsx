@@ -14,9 +14,11 @@ export default class CategoryList extends Component {
                 name="category"
                 type="radio"
                 id={ category.id }
+                className="txtCategory"
               />
               <label
                 data-testid="category"
+                className="lblCategory"
                 htmlFor={ category.id }
               >
                 { category.name }
