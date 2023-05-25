@@ -17,7 +17,7 @@ class Home extends React.Component {
 
   render() {
     const { categories } = this.state;
-    const { productList, handleAddInCart, getProducts, noSearch } = this.props;
+    const { productList, handleAddInCart, getProducts, noSearch, sort } = this.props;
     return (
       <main className="main">
         <CategoryList
@@ -29,6 +29,7 @@ class Home extends React.Component {
           <ProductList
             productList={ productList }
             handleAddInCart={ handleAddInCart }
+            sort={ sort }
           />
         ) : noSearch || (
           <section className="home-container">
@@ -59,6 +60,7 @@ Home.propTypes = {
   handleAddInCart: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   noSearch: PropTypes.bool.isRequired,
+  sort: PropTypes.string.isRequired,
 };
 
 export default Home;

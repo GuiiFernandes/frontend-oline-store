@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import './css/App.css';
 import Header from './components/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
@@ -8,6 +7,7 @@ import Product from './pages/Product';
 import Checkout from './pages/Checkout';
 import { getProductsFromCategoryAndQuery } from './services/api';
 import { addToCart } from './services/localStorage';
+import './css/App.css';
 
 class App extends Component {
   constructor() {
@@ -20,6 +20,7 @@ class App extends Component {
     productList: [],
     cartCount: 0,
     noSearch: true,
+    sort: '',
   };
 
   componentDidMount() {
@@ -56,7 +57,7 @@ class App extends Component {
   }
 
   render() {
-    const { query, productList, productsInCart, cartCount, noSearch } = this.state;
+    const { query, productList, productsInCart, cartCount, noSearch, sort } = this.state;
     return (
       <>
         <Header
@@ -64,6 +65,7 @@ class App extends Component {
           handleChange={ this.handleChange }
           query={ query }
           getProducts={ this.getProducts }
+          sort={ sort }
         />
         <Switch>
           <Route path="/cart">
@@ -78,6 +80,7 @@ class App extends Component {
               productList={ productList }
               handleAddInCart={ this.handleAddInCart }
               noSearch={ noSearch }
+              sort={ sort }
             />
           </Route>
           <Route
