@@ -32,7 +32,7 @@ class Home extends React.Component {
           getProducts={ getProducts }
         />
         { productList.length ? (
-          <div className="produts-container">
+          <div className="products-container">
             <div>
               <button
                 type="button"

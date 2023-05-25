@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../css/CategoryList.css';
 
 export default class CategoryList extends Component {
   render() {
     const { getProducts, categories } = this.props;
     return (
-      <aside className="aside">
+      <aside>
         <fieldset>
           { categories.map((category, index) => (
-            <div key={ index }>
+            <div key={ index } className="aside">
               <input
                 onChange={ getProducts }
                 name="category"

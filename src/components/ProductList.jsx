@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { FaShoppingCart } from 'react-icons/fa';
+import '../css/ProductList.css';
 
 export default class ProductList extends Component {
   render() {
@@ -15,22 +17,35 @@ export default class ProductList extends Component {
       <div className="product-list-container">
         {
           productList.map((product) => (
-            <div key={ product.id }>
-              <div data-testid="product">
-                <Link to={ `/product/${product.id}` } data-testid="product-detail-link">
-                  <img src={ product.thumbnail } alt={ product.title } />
-                  <h4>{ product.title }</h4>
-                  <p>{ product.price }</p>
-                  { product.shipping.free_shipping
-                  && <p data-testid="free-shipping">Frete grátis</p>}
-                </Link>
-                <button
-                  data-testid="product-add-to-cart"
-                  onClick={ () => handleAddInCart(product) }
+            <div key={ product.id } className="productBox" data-testid="product">
+              <Link to={ `/product/${product.id}` } data-testid="product-detail-link">
+                <img
+                  className="imgProduct"
+                  src={ product.thumbnail }
+                  alt={ product.title }
+                />
+                <h4 className="nameProduct">{ product.title }</h4>
+                <p className="priceProduct">
+                  R$
+                  { product.price }
+                </p>
+              </Link>
+              <button
+                className="btnAddCart"
+                data-testid="product-add-to-cart"
+                onClick={ () => handleAddInCart(product) }
+              >
+                Adicionar ao carrinho
+                <FaShoppingCart size="20px" />
+              </button>
+              { product.shipping.free_shipping && (
+                <p
+                  className="freteGratis"
+                  data-testid="free-shipping"
                 >
-                  Adicionar ao carrinho
-                </button>
-              </div>
+                  Frete grátis
+                </p>
+              ) }
             </div>
           ))
         }

@@ -1,13 +1,10 @@
 .aside {
-  background-color: var(--blue);
+  background-color: var(--gray);
   display: flex;
+  padding-top: 1rem;
   width: 30rem;
 }
 
-.product {
-  display: flex;
-  float: right;
-}
 
 .txtCategory {
   display: none;
@@ -16,19 +13,18 @@
 .lblCategory {
   background: transparent;
   border: none;
-  color: #ffedd3;
+  color: var(--dark-purple);
   cursor: pointer;
   font-size: 15px;
   padding: 1em 1.5em;
   position: relative;
   text-transform: uppercase;
-  transition: 0.5s ease;
+  transition: 0.2s ease;
 }
 
 .lblCategory:before {
-  background-color: #ffc506;
+  background-color: var(--pink);
   bottom: 0;
-  content: ‘’;
   height: 2px;
   left: 0;
   position: absolute;
@@ -37,7 +33,7 @@
 }
 
 .lblCategory:hover {
-  color: #1e1e2b;
+  color: var(--purple);
   transition-delay: 0.5s;
 }
 
@@ -46,9 +42,8 @@
 }
 
 .lblCategory:after {
-  background-color: #ffc506;
+  background-color: var(--green);
   bottom: 0;
-  content: ‘’;
   height: 0;
   left: 0;
   position: absolute;
@@ -57,17 +52,18 @@
   z-index: -1;
 }
 
-.lblCategory:hover:after {
-  color: aliceblue;
-  height: 100%;
-  transition-delay: 0.4s;
-}
-
-@media screen and ( max-width : 600px ) {
+@media screen and ( min-width : 600px ) {
 
   .lblCategory {
     width: 100%;
   }
+
+  .product {
+    display: none;
+  }
+}
+
+@media screen and ( min-width : 900px ) {
 
   .product {
     display: none;

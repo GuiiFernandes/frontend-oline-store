@@ -1,0 +1,62 @@
+.product-list-container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, 200px);
+  justify-content: center;
+  width: 100%;
+}
+
+.productBox {
+  align-items: center;
+  background-color: var(--light-gray);
+  border: 3px solid var(--dark-purple);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5%;
+  padding: 0.5%;
+  text-align: center;
+}
+
+.freteGratis {
+  color: var(--dark-purple);
+}
+
+.imgProduct {
+  align-items: center;
+  border-bottom: 1px solid var(--dark-purple);
+  height: 190px;
+  width: 190px;
+}
+
+.nameProduct {
+  color: var(--dark-purple);
+  font-size: 1.5rem;
+  height: 60px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.priceProduct {
+  color: var(--dark-purple);
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.btnAddCart {
+  align-items: center;
+  background-color: var(--pink);
+  border: none;
+  border-radius: 50px;
+  box-shadow: 1px 3px 0 var(--blue);
+  color: var(--light-gray);
+  cursor: pointer;
+  display: flex;
+  font-weight: 600;
+  gap: 5px;
+  height: 40px;
+  justify-content: center;
+  transition-duration: 0.3s;
+  width: 180px;
+}
+
