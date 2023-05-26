@@ -24,6 +24,14 @@ export default class ProductList extends Component {
                   src={ product.thumbnail }
                   alt={ product.title }
                 />
+                { product.shipping.free_shipping && (
+                  <p
+                    className="freteGratis"
+                    data-testid="free-shipping"
+                  >
+                    Frete grátis
+                  </p>
+                ) }
                 <h4 className="nameProduct">{ product.title }</h4>
                 <p className="priceProduct">
                   R$
@@ -38,14 +46,6 @@ export default class ProductList extends Component {
                 Adicionar ao carrinho
                 <FaShoppingCart size="20px" />
               </button>
-              { product.shipping.free_shipping && (
-                <p
-                  className="freteGratis"
-                  data-testid="free-shipping"
-                >
-                  Frete grátis
-                </p>
-              ) }
             </div>
           ))
         }

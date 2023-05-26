@@ -8,32 +8,42 @@ import '../css/Header.css';
 
 export default class Header extends Component {
   render() {
-    const { query, handleChange, getProducts, cartCount } = this.props;
+    const { query, handleChange, getProducts,
+      cartCount, visibleCategories, categoriesOpen } = this.props;
     return (
       <header className="header">
-        <div className="logo-container">
-          <img className="logo-p" src={ logoP } alt="Shopping 07 logo" />
-          <img className="logo-g" src={ logoG } alt="Shopping 07 logo" />
-        </div>
-        <form className="btn-container">
-          <input
-            data-testid="query-input"
-            type="text"
-            name="query"
-            className="btn input"
-            value={ query }
-            onChange={ handleChange }
-            id="search"
-            placeholder="digite o que você busca"
-          />
+        <picture className="logo-container">
+          <source media="(min-width: 900px)" srcSet={ logoG } />
+          <img src={ logoP } className="logo" alt="Shopping 07 logo" />
+        </picture>
+        <div className="search-container">
+          <form className="btn-container">
+            <input
+              data-testid="query-input"
+              type="text"
+              name="query"
+              className="btn input"
+              value={ query }
+              onChange={ handleChange }
+              id="search"
+              placeholder="digite o que você busca"
+            />
+            <button
+              className="btn search"
+              data-testid="query-button"
+              onClick={ getProducts }
+            >
+              <BsSearch size="20px" />
+            </button>
+          </form>
           <button
-            className="btn search"
-            data-testid="query-button"
-            onClick={ getProducts }
+            type="button"
+            onClick={ visibleCategories }
+            className={ `categories ${categoriesOpen && 'open'}` }
           >
-            <BsSearch size="20px" />
+            Categorias
           </button>
-        </form>
+        </div>
         <Link to="/cart" data-testid="shopping-cart-button">
           <div className="cart-container">
             <BsCart3 size="45px" />
@@ -55,4 +65,6 @@ Header.propTypes = {
   handleChange: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   cartCount: PropTypes.number.isRequired,
+  visibleCategories: PropTypes.func.isRequired,
+  categoriesOpen: PropTypes.bool.isRequired,
 };

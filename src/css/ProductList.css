@@ -1,32 +1,47 @@
 .product-list-container {
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fill, 200px);
+  gap: 20px 20px;
+  grid-template-columns: repeat(auto-fill, 250px);
   justify-content: center;
-  width: 100%;
+  width: 70%;
+}
+
+.products-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .productBox {
   align-items: center;
-  background-color: var(--light-gray);
-  border: 3px solid var(--dark-purple);
+  background-color: var(--gray);
   border-radius: 10px;
+  box-shadow: 0 0 14px rgba(55, 2, 58, 0.3);
   display: flex;
   flex-direction: column;
-  margin: 0.5%;
-  padding: 0.5%;
+  overflow: hidden;
+  position: relative;
   text-align: center;
 }
 
 .freteGratis {
-  color: var(--dark-purple);
+  background-color: var(--pink);
+  border-radius: 25px;
+  color: var(--light-gray);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 3px;
+  position: absolute;
+  right: 2px;
+  top: 1px;
 }
 
 .imgProduct {
   align-items: center;
   border-bottom: 1px solid var(--dark-purple);
-  height: 190px;
-  width: 190px;
+  height: 230px;
+  width: 100%;
 }
 
 .nameProduct {
@@ -45,18 +60,26 @@
 
 .btnAddCart {
   align-items: center;
-  background-color: var(--pink);
+  background-color: var(--dark-purple);
   border: none;
   border-radius: 50px;
-  box-shadow: 1px 3px 0 var(--blue);
-  color: var(--light-gray);
+  box-shadow: 1px 3px 0 var(--pink);
+  color: var(--blue);
   cursor: pointer;
   display: flex;
   font-weight: 600;
   gap: 5px;
   height: 40px;
   justify-content: center;
+  margin-bottom: 10px;
   transition-duration: 0.3s;
   width: 180px;
+}
+
+@media ( min-width : 600px ) {
+
+  .product-list-container {
+    display: grid;
+  }
 }
 

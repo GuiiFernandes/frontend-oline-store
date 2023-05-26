@@ -16,6 +16,9 @@
 
   --dark-purple: #37023a;
 
+  --size-header: 80px;
+
+  --size-categories-p: 40%;
 }
 
 * {

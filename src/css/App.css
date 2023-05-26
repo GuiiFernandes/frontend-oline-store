@@ -8,8 +8,8 @@ body > div {
 
 .main {
   display: flex;
-  margin-top: 65px;
-  min-height: calc(100vh - 87px);
+  margin-top: var(--size-header);
+  min-height: calc(100vh - var(--size-header));
   width: 100%;
 }
 
@@ -21,4 +21,18 @@ a {
 .cart-container, .btn-container, .search, .logo-container, .count-cart, .header {
   align-items: center;
   display: flex;
+}
+
+@media ( min-width : 600px ) {
+
+  .ml-category {
+    margin-left: var(--size-categories-p);
+  }
+}
+
+@media ( min-width : 900px ) {
+
+  .ml-category {
+    margin-left: 330px;
+  }
 }

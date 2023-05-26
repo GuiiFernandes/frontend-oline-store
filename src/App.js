@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import Product from './pages/Product';
 import Checkout from './pages/Checkout';
-import { getProductsFromCategoryAndQuery } from './services/api';
+import { getProductsFromCategoryAndQuery, getCategories } from './services/api';
 import { addToCart } from './services/localStorage';
 import './css/App.css';
+import CategoryList from './components/CategoryList';
 
 class App extends Component {
   constructor() {
@@ -21,10 +22,15 @@ class App extends Component {
     cartCount: 0,
     noSearch: true,
     sort: '',
+    redirect: false,
+    categories: [],
+    categoriesOpen: false,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.updateCartCount();
+    const categories = await getCategories();
+    this.setState({ categories });
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -35,19 +41,27 @@ class App extends Component {
 
   getProducts = async (event) => {
     event.preventDefault();
-    const { query } = this.state;
-    const categoryId = event.target.type === 'radio' ? event.target.id : '';
-    const productList = (await getProductsFromCategoryAndQuery(categoryId, query));
-    this.setState({
-      productList: productList.results,
-      noSearch: false,
-      query: '',
+    this.setState({ redirect: true }, async () => {
+      const { query } = this.state;
+      const categoryId = event.target.name === 'category' ? event.target.id : '';
+      const productList = (await getProductsFromCategoryAndQuery(categoryId, query));
+      this.setState({
+        productList: productList.results,
+        noSearch: false,
+        query: '',
+        redirect: false,
+        categoriesOpen: false,
+      });
     });
   };
 
   handleAddInCart = (product) => {
     addToCart(product);
     this.updateCartCount();
+  };
+
+  visibleCategories = () => {
+    this.setState(({ categoriesOpen }) => ({ categoriesOpen: !categoriesOpen }));
   };
 
   updateCartCount() {
@@ -57,48 +71,68 @@ class App extends Component {
   }
 
   render() {
-    const { query, productList, productsInCart, cartCount, noSearch, sort } = this.state;
+    const { query, productList, productsInCart, cartCount,
+      noSearch, sort, redirect, categories, categoriesOpen } = this.state;
+
+    if (redirect) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <>
         <Header
           cartCount={ cartCount }
           handleChange={ this.handleChange }
           query={ query }
+          categoriesOpen={ categoriesOpen }
           getProducts={ this.getProducts }
+          visibleCategories={ this.visibleCategories }
+          redirect={ redirect }
         />
-        <Switch>
-          <Route path="/cart">
-            <Cart
-              productsInCart={ productsInCart }
-              updateCartCount={ this.updateCartCount }
-            />
-          </Route>
-          <Route exact path="/">
-            <Home
+        <main className="main">
+          {
+            categoriesOpen && <CategoryList
+              handleAddInCart={ this.handleAddInCart }
+              categories={ categories }
               getProducts={ this.getProducts }
-              productList={ productList }
-              handleAddInCart={ this.handleAddInCart }
-              handleChange={ this.handleChange }
-              noSearch={ noSearch }
-              sort={ sort }
+              categoriesOpen={ categoriesOpen }
             />
-          </Route>
-          <Route
-            path="/product/:id"
-            render={ (props) => (<Product
-              { ...props }
-              handleAddInCart={ this.handleAddInCart }
-            />) }
-          />
+          }
+          <Switch>
+            <Route path="/cart">
+              <Cart
+                productsInCart={ productsInCart }
+                updateCartCount={ this.updateCartCount }
+              />
+            </Route>
+            <Route exact path="/">
+              <Home
+                getProducts={ this.getProducts }
+                productList={ productList }
+                categoriesOpen={ categoriesOpen }
+                handleAddInCart={ this.handleAddInCart }
+                handleChange={ this.handleChange }
+                noSearch={ noSearch }
+                sort={ sort }
+              />
+            </Route>
+            <Route
+              path="/product/:id"
+              render={ (props) => (<Product
+                { ...props }
+                handleAddInCart={ this.handleAddInCart }
+              />) }
+            />
 
-          <Route
-            path="/Checkout"
-            render={ (props) => (<Checkout
-              { ...props }
-              updateCartCount={ this.updateCartCount }
-            />) }
-          />
-        </Switch>
+            <Route
+              path="/Checkout"
+              render={ (props) => (<Checkout
+                { ...props }
+                updateCartCount={ this.updateCartCount }
+              />) }
+            />
+          </Switch>
+        </main>
       </>
     );
   }
