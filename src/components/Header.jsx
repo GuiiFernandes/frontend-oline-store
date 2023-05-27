@@ -12,10 +12,12 @@ export default class Header extends Component {
       cartCount, visibleCategories, categoriesOpen } = this.props;
     return (
       <header className="header">
-        <picture className="logo-container">
-          <source media="(min-width: 900px)" srcSet={ logoG } />
-          <img src={ logoP } className="logo" alt="Shopping 07 logo" />
-        </picture>
+        <Link to="/">
+          <picture className="logo-container">
+            <source media="(min-width: 900px)" srcSet={ logoG } />
+            <img src={ logoP } className="logo" alt="Shopping 07 logo" />
+          </picture>
+        </Link>
         <div className="search-container">
           <form className="btn-container">
             <input

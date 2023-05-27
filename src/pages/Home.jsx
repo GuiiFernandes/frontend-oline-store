@@ -12,8 +12,10 @@ class Home extends React.Component {
       <>
         { productList.length ? (
           <div className={ `products-container ${categoriesOpen && mlCat}` }>
-            <div>
+            <div className="select-container">
+              <div />
               <select
+                className="order"
                 name="sort"
                 id="sort"
                 value={ sort }

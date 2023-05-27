@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
+import { NumericFormat } from 'react-number-format';
 import '../css/ProductList.css';
 
 export default class ProductList extends Component {
@@ -16,38 +17,51 @@ export default class ProductList extends Component {
     return (
       <div className="product-list-container">
         {
-          productList.map((product) => (
-            <div key={ product.id } className="productBox" data-testid="product">
-              <Link to={ `/product/${product.id}` } data-testid="product-detail-link">
-                <img
-                  className="imgProduct"
-                  src={ product.thumbnail }
-                  alt={ product.title }
-                />
-                { product.shipping.free_shipping && (
-                  <p
-                    className="freteGratis"
-                    data-testid="free-shipping"
-                  >
-                    Frete grátis
-                  </p>
-                ) }
-                <h4 className="nameProduct">{ product.title }</h4>
-                <p className="priceProduct">
-                  R$
-                  { product.price }
-                </p>
-              </Link>
-              <button
-                className="btnAddCart"
-                data-testid="product-add-to-cart"
-                onClick={ () => handleAddInCart(product) }
-              >
-                Adicionar ao carrinho
-                <FaShoppingCart size="20px" />
-              </button>
-            </div>
-          ))
+          productList.map((product) => {
+            console.log(product);
+            return (
+              <div key={ product.id } className="productBox" data-testid="product">
+                <Link to={ `/product/${product.id}` } data-testid="product-detail-link">
+                  <img
+                    className="imgProduct"
+                    src={ product.thumbnail }
+                    alt={ product.title }
+                  />
+                  { product.shipping.free_shipping && (
+                    <p
+                      className="freteGratis"
+                      data-testid="free-shipping"
+                    >
+                      Frete grátis
+                    </p>
+                  ) }
+                  <div className="product-infos">
+                    <h4 className="nameProduct">{ product.title }</h4>
+                    <p className="priceProduct">
+                      <NumericFormat
+                        value={ product.price }
+                        allowNegative={ false }
+                        displayType="text"
+                        decimalScale={ 2 }
+                        fixedDecimalScale
+                        decimalSeparator=","
+                        prefix="R$"
+                        thousandSeparator="."
+                      />
+                    </p>
+                  </div>
+                </Link>
+                <button
+                  className="btnAddCart"
+                  data-testid="product-add-to-cart"
+                  onClick={ () => handleAddInCart(product) }
+                >
+                  Adicionar ao carrinho
+                  <FaShoppingCart size="20px" />
+                </button>
+              </div>
+            );
+          })
         }
       </div>
     );

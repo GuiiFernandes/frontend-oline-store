@@ -23,6 +23,11 @@ a {
   display: flex;
 }
 
+.order:hover, .btnAddCart:hover, .btn-container:hover, .btn-container:focus-within {
+  border: 3px solid var(--pink);
+  box-shadow: 0 0 15px rgba(255, 59, 147, 0.6);
+}
+
 @media ( min-width : 600px ) {
 
   .ml-category {

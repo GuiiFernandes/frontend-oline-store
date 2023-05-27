@@ -25,6 +25,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-color: var(--pink) transparent;
+  scrollbar-width: none;
 }
 
 html {
@@ -37,4 +39,25 @@ body {
 
 code {
   font-family: source-code-pro , Menlo , Monaco , Consolas , monospace;
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+}
+
+@media ( min-width : 600px ) {
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: var(--dark-purple);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--pink);
+    border: none;
+    border-radius: 10px;
+  }
 }

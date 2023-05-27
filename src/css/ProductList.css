@@ -3,7 +3,7 @@
   gap: 20px 20px;
   grid-template-columns: repeat(auto-fill, 250px);
   justify-content: center;
-  width: 70%;
+  width: 100%;
 }
 
 .products-container {
@@ -44,18 +44,23 @@
   width: 100%;
 }
 
+.product-infos {
+  padding: 0 8px;
+}
+
 .nameProduct {
   color: var(--dark-purple);
   font-size: 1.5rem;
-  height: 60px;
+  height: 40px;
   overflow: hidden;
   text-align: center;
 }
 
 .priceProduct {
-  color: var(--dark-purple);
-  font-size: 1.7rem;
-  font-weight: 600;
+  color: var(--purple);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 5px 0;
 }
 
 .btnAddCart {
@@ -63,7 +68,6 @@
   background-color: var(--dark-purple);
   border: none;
   border-radius: 50px;
-  box-shadow: 1px 3px 0 var(--pink);
   color: var(--blue);
   cursor: pointer;
   display: flex;
@@ -72,8 +76,8 @@
   height: 40px;
   justify-content: center;
   margin-bottom: 10px;
-  transition-duration: 0.3s;
-  width: 180px;
+  padding: 0 20px;
+  transition: 0.1s ease-in;
 }
 
 @media ( min-width : 600px ) {
