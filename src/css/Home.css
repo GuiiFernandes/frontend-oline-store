@@ -3,6 +3,28 @@
   width: 100%;
 }
 
+.page-text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  text-align: center;
+}
+
+.title-message {
+  color: var(--purple);
+  text-transform: uppercase;
+}
+
+.message {
+  color: var(--dark-gray);
+}
+
+.title-message, .message {
+  max-width: 265px;
+}
+
 .products-container {
   padding: 10px;
   width: 100%;

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { IoArrowUndo } from 'react-icons/io5';
 import { changeQuantity, removeProduct } from '../services/localStorage';
+import '../css/Cart.css';
 
 export default class Cart extends Component {
   state = {
@@ -36,7 +38,10 @@ export default class Cart extends Component {
       <main>
         <nav>
           <Link to="/">
-            <button>Voltar</button>
+            <button className="back-button">
+              <IoArrowUndo size="19px" />
+              Voltar
+            </button>
           </Link>
         </nav>
         <section>

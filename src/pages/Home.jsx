@@ -37,14 +37,18 @@ class Home extends React.Component {
             />
           </div>
         ) : noSearch || (
-          <section className={ `home-container ${categoriesOpen && mlCat}` }>
-            <p>Nenhum produto foi encontrado</p>
+          <section className={ `home-container page-text ${categoriesOpen && mlCat}` }>
+            <h2 className="title-message">Nenhum produto foi encontrado</h2>
+            <p className="message">
+              Digite algum termo de pesquisa ou escolha uma categoria.
+            </p>
           </section>
         ) }
         {
           noSearch && (
-            <section className={ `home-container ${categoriesOpen && mlCat}` }>
-              <p data-testid="home-initial-message">
+            <section className={ `home-container page-text ${categoriesOpen && mlCat}` }>
+              <h2 className="title-message">Realize uma busca</h2>
+              <p className="message" data-testid="home-initial-message">
                 Digite algum termo de pesquisa ou escolha uma categoria.
               </p>
             </section>
