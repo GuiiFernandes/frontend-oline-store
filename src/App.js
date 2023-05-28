@@ -11,11 +11,6 @@ import './css/App.css';
 import CategoryList from './components/CategoryList';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.updateCartCount = this.updateCartCount.bind(this);
-  }
-
   state = {
     query: '',
     productList: [],
@@ -64,14 +59,14 @@ class App extends Component {
     this.setState(({ categoriesOpen }) => ({ categoriesOpen: !categoriesOpen }));
   };
 
-  updateCartCount() {
+  updateCartCount = () => {
     const productsInCart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartCount = productsInCart.reduce((sum, product) => sum + product.quantity, 0);
     this.setState({ cartCount });
-  }
+  };
 
   render() {
-    const { query, productList, productsInCart, cartCount,
+    const { query, productList, cartCount,
       noSearch, sort, redirect, categories, categoriesOpen } = this.state;
 
     if (redirect) {
@@ -101,7 +96,6 @@ class App extends Component {
           <Switch>
             <Route path="/cart">
               <Cart
-                productsInCart={ productsInCart }
                 updateCartCount={ this.updateCartCount }
               />
             </Route>

@@ -14,6 +14,8 @@
 
 .title-message {
   color: var(--purple);
+  font-size: 3rem;
+  font-weight: 900;
   text-transform: uppercase;
 }
 
@@ -22,7 +24,7 @@
 }
 
 .title-message, .message {
-  max-width: 265px;
+  max-width: 300px;
 }
 
 .products-container {
