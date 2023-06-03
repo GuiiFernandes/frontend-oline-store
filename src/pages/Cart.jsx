@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { IoArrowUndo } from 'react-icons/io5';
+import { Link, Route } from 'react-router-dom';
 import { NumericFormat } from 'react-number-format';
 import { changeQuantity, removeProduct } from '../services/localStorage';
 import '../css/Cart.css';
 import ProductCart from '../components/ProductCart';
+import BackBtn from '../components/BackBtn';
 
 export default class Cart extends Component {
   state = {
@@ -47,14 +47,12 @@ export default class Cart extends Component {
     const { productsInCart, quantities } = this.state;
     return (
       <div className="page-cart-container">
-        <nav>
-          <Link to="/">
-            <button className="back-button">
-              <IoArrowUndo size="19px" />
-              Voltar
-            </button>
-          </Link>
-        </nav>
+        <Route
+          path="/cart"
+          render={ (props) => (<BackBtn
+            { ...props }
+          />) }
+        />
         { productsInCart.length ? (
           <section className="cart-container">
             <div className="cart-product-container">
@@ -86,7 +84,7 @@ export default class Cart extends Component {
                   thousandSeparator="."
                 />
               </div>
-              <Link to="./Checkout">
+              <Link to="/Checkout">
                 <button
                   className="btn-checkout"
                   disabled={ !productsInCart.length }

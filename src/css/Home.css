@@ -53,7 +53,18 @@
 
 @media ( min-width : 600px ) {
 
+  .home-container {
+    width: calc(100% - var(--size-categories-p));
+  }
+
   .select-container {
     width: 90%;
+  }
+}
+
+@media ( min-width : 900px ) {
+
+  .home-container {
+    width: calc(100% - 330px);
   }
 }

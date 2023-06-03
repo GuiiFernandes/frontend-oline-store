@@ -48,7 +48,7 @@ export default class Header extends Component {
         </div>
         <Link to="/cart" data-testid="shopping-cart-button">
           <div className="cart-header-container">
-            <BsCart3 size="45px" />
+            <BsCart3 color="white" size="45px" />
             <span
               className="count-cart"
               data-testid="shopping-cart-size"

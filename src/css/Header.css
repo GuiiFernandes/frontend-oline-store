@@ -132,16 +132,16 @@
   }
 
   .logo-container:hover {
-    filter: drop-shadow(0 0 15px rgb(255, 59, 147));
+    filter: drop-shadow(0 0 15px var(--pink));
   }
 
   .categories:hover {
     color: var(--blue);
-    text-shadow: 0 0 15px rgb(85, 255, 226);
+    text-shadow: 0 0 15px var(--blue);
   }
 
   .cart-header-container:hover {
-    filter: drop-shadow(0 0 15px rgb(167, 253, 42));
+    filter: drop-shadow(0 0 15px var(--green));
   }
 }
 

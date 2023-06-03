@@ -94,11 +94,13 @@ class App extends Component {
             />
           }
           <Switch>
-            <Route path="/cart">
-              <Cart
+            <Route
+              path="/cart"
+              render={ (props) => (<Cart
+                { ...props }
                 updateCartCount={ this.updateCartCount }
-              />
-            </Route>
+              />) }
+            />
             <Route exact path="/">
               <Home
                 getProducts={ this.getProducts }
@@ -117,9 +119,8 @@ class App extends Component {
                 handleAddInCart={ this.handleAddInCart }
               />) }
             />
-
             <Route
-              path="/Checkout"
+              path="/checkout"
               render={ (props) => (<Checkout
                 { ...props }
                 updateCartCount={ this.updateCartCount }

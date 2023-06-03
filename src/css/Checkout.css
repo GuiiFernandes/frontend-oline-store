@@ -1,0 +1,28 @@
+.header-checkout {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkout-items-title {
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: var(--purple);
+  display: flex;
+  font-size: 2.2rem;
+  font-weight: 700;
+  outline: none;
+  text-align: center;
+}
+
+.cart-container {
+  margin-bottom: 20px;
+}
+
+.total-container {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}

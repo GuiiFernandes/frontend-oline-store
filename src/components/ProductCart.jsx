@@ -6,7 +6,8 @@ import '../css/ProductCart.css';
 
 export default class ProductCart extends Component {
   render() {
-    const { product, handleRemoveProduct, handleChangeQuantity, quantities } = this.props;
+    const { product, handleRemoveProduct,
+      handleChangeQuantity, quantities, noCheckout } = this.props;
     const { id, quantity, title, thumbnail,
       price, available_quantity: availableQuantity } = product;
     const negativeMult = -1;
@@ -35,32 +36,40 @@ export default class ProductCart extends Component {
             className="qtd-container"
             data-testid="shopping-cart-product-quantity"
           >
-            <button
-              className="btn-cart qtd"
-              data-testid="product-decrease-quantity"
-              onClick={ () => handleChangeQuantity(product, negativeMult, 1, false) }
-              disabled={ quantity === 1 }
-            >
-              <IoIosArrowBack size="20px" />
-            </button>
-            <input
-              type="number"
-              className="product-qtd"
-              min="1"
-              max={ availableQuantity }
-              step="1"
-              name={ id }
-              value={ quantities[id] }
-              onChange={ (e) => handleChangeQuantity(product, 1, e.target.value, true) }
-            />
-            <button
-              className="btn-cart qtd"
-              data-testid="product-increase-quantity"
-              onClick={ () => handleChangeQuantity(product, 1, 1, false) }
-              disabled={ quantity === availableQuantity }
-            >
-              <IoIosArrowForward size="20px" />
-            </button>
+            { noCheckout ? (
+              <>
+                <button
+                  className="btn-cart qtd"
+                  data-testid="product-decrease-quantity"
+                  onClick={ () => handleChangeQuantity(product, negativeMult, 1, false) }
+                  disabled={ quantity === 1 }
+                >
+                  <IoIosArrowBack size="20px" />
+                </button>
+                <input
+                  type="number"
+                  className="product-qtd"
+                  min="1"
+                  max={ availableQuantity }
+                  step="1"
+                  name={ id }
+                  value={ quantities[id] }
+                  onChange={ (e) => (
+                    handleChangeQuantity(product, 1, e.target.value, true)
+                  ) }
+                />
+                <button
+                  className="btn-cart qtd"
+                  data-testid="product-increase-quantity"
+                  onClick={ () => handleChangeQuantity(product, 1, 1, false) }
+                  disabled={ quantity === availableQuantity }
+                >
+                  <IoIosArrowForward size="20px" />
+                </button>
+              </>
+            ) : (
+              <p className="text-qtd">{ quantity }</p>
+            ) }
           </div>
           <p className="price-cart">
             <NumericFormat
@@ -91,6 +100,12 @@ ProductCart.propTypes = {
     available_quantity: PropTypes.number.isRequired,
   }).isRequired,
   quantities: PropTypes.objectOf(PropTypes.number).isRequired,
-  handleChangeQuantity: PropTypes.func.isRequired,
+  handleChangeQuantity: PropTypes.func,
   handleRemoveProduct: PropTypes.func.isRequired,
+  noCheckout: PropTypes.bool,
+};
+
+ProductCart.defaultProps = {
+  handleChangeQuantity: () => {},
+  noCheckout: true,
 };
