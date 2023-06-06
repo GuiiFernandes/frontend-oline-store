@@ -23,6 +23,7 @@ export default class Checkout extends Component {
     quantities: {},
     mostrarErro: false,
     cartOpen: false,
+    completedPurchase: false,
   };
 
   componentDidMount() {
@@ -46,6 +47,7 @@ export default class Checkout extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const msgTime = 5000;
     const { campos } = this.state;
     const { history, updateCartCount } = this.props;
     const { fullname, email, cpf, phone, cep, address, payment } = campos;
@@ -55,9 +57,12 @@ export default class Checkout extends Component {
       this.setState({ mostrarErro: camposInvalidos });
       return;
     }
+    this.setState({ completedPurchase: true });
     localStorage.setItem('cart', JSON.stringify([]));
     updateCartCount();
-    history.push('/');
+    setTimeout(() => {
+      history.push('/');
+    }, msgTime);
   };
 
   handleRemoveProduct = (product) => {
@@ -73,68 +78,90 @@ export default class Checkout extends Component {
   };
 
   render() {
-    const { productsInCart, cartOpen, campos, quantities, mostrarErro } = this.state;
+    const { productsInCart, cartOpen, campos,
+      quantities, mostrarErro, completedPurchase } = this.state;
+    const biggerScreen = 900;
+    const screenIsBigger = document.body.clientWidth > biggerScreen;
     return (
-      <div className="page-cart-container">
-        <Route
-          path="/checkout"
-          render={ (props) => (<BackBtn
-            { ...props }
-          />) }
-        />
-        <section
-          className="cart-container"
-        >
-          <button
-            type="button"
-            className="checkout-items-title"
-            onClick={ this.openCart }
-          >
-            Revise seus produtos
-            { cartOpen ? (
-              <IoIosArrowDown size="20px" />
-            ) : (
-              <IoIosArrowForward size="20px" />
-            )}
-          </button>
-          <section
-            className="cart-product-container"
-            style={ { display: cartOpen ? 'block' : 'none' } }
-          >
-            { productsInCart.map((product) => (
-              <ProductCart
-                key={ product.id }
-                product={ product }
-                handleRemoveProduct={ this.handleRemoveProduct }
-                quantities={ quantities }
-                noCheckout={ false }
-              />
-            )) }
+      <div className="page-checkout-container">
+        { completedPurchase ? (
+          <section className="home-container page-text">
+            <h2 className="title-message">Compra concluida com sucesso!</h2>
+            <p className="message">
+              Em breve você receberá um e-mail
+              com as informações da compra, nota fiscal e código de ratreio.
+            </p>
+            <p className="message">
+              OBRIGADO POR COMPRAR NA SHOPPING 07
+            </p>
           </section>
-          <div className="total-container">
-            <p className="title-total">TOTAL:</p>
-            <NumericFormat
-              className="value-total"
-              value={
-                productsInCart.reduce((total, { quantity, price }) => (
-                  total + (price * quantity)), 0)
-              }
-              allowNegative={ false }
-              displayType="text"
-              decimalScale={ 2 }
-              fixedDecimalScale
-              decimalSeparator=","
-              prefix="R$"
-              thousandSeparator="."
+        ) : (
+          <>
+            <Route
+              path="/checkout"
+              render={ (props) => (<BackBtn
+                { ...props }
+              />) }
             />
-          </div>
-        </section>
-        <FormCheckout
-          campos={ campos }
-          handleChange={ this.handleChange }
-          handleSubmit={ this.handleSubmit }
-          mostrarErro={ mostrarErro }
-        />
+            <section
+              className="checkout-cart-container"
+            >
+              { screenIsBigger ? (
+                <h2 className="checkout-items-title">Revise seus produtos</h2>
+              ) : (
+                <button
+                  type="button"
+                  className="checkout-items-title"
+                  onClick={ this.openCart }
+                >
+                  Revise seus produtos
+                  { cartOpen ? (
+                    <IoIosArrowDown size="20px" />
+                  ) : (
+                    <IoIosArrowForward size="20px" />
+                  )}
+                </button>
+              ) }
+              <section
+                className="cart-product-container"
+                style={ { display: cartOpen || screenIsBigger ? 'block' : 'none' } }
+              >
+                { productsInCart.map((product) => (
+                  <ProductCart
+                    key={ product.id }
+                    product={ product }
+                    handleRemoveProduct={ this.handleRemoveProduct }
+                    quantities={ quantities }
+                    noCheckout={ false }
+                  />
+                )) }
+              </section>
+              <div className="total-container">
+                <p className="title-total">TOTAL:</p>
+                <NumericFormat
+                  className="value-total"
+                  value={
+                    productsInCart.reduce((total, { quantity, price }) => (
+                      total + (price * quantity)), 0)
+                  }
+                  allowNegative={ false }
+                  displayType="text"
+                  decimalScale={ 2 }
+                  fixedDecimalScale
+                  decimalSeparator=","
+                  prefix="R$"
+                  thousandSeparator="."
+                />
+              </div>
+            </section>
+            <FormCheckout
+              campos={ campos }
+              handleChange={ this.handleChange }
+              handleSubmit={ this.handleSubmit }
+              mostrarErro={ mostrarErro }
+            />
+          </>
+        )}
       </div>
     );
   }

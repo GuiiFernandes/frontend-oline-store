@@ -36,6 +36,7 @@ a {
 
   .ml-category {
     margin-left: 330px;
+    width: calc(100% - 330px);
   }
 
   .order:hover, .btnAddCart:hover, .btn-container:hover, .btn-container:focus-within {

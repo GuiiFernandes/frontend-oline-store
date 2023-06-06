@@ -68,6 +68,7 @@ class App extends Component {
   render() {
     const { query, productList, cartCount,
       noSearch, sort, redirect, categories, categoriesOpen } = this.state;
+    const mlCat = 'ml-category';
 
     if (redirect) {
       return <Redirect to="/" />;
@@ -84,7 +85,7 @@ class App extends Component {
           visibleCategories={ this.visibleCategories }
           redirect={ redirect }
         />
-        <main className="main">
+        <main className={ `main ${categoriesOpen ? mlCat : ''}` }>
           {
             categoriesOpen && <CategoryList
               handleAddInCart={ this.handleAddInCart }
@@ -99,6 +100,7 @@ class App extends Component {
               render={ (props) => (<Cart
                 { ...props }
                 updateCartCount={ this.updateCartCount }
+                categoriesOpen={ categoriesOpen }
               />) }
             />
             <Route exact path="/">
@@ -124,6 +126,7 @@ class App extends Component {
               render={ (props) => (<Checkout
                 { ...props }
                 updateCartCount={ this.updateCartCount }
+                categoriesOpen={ categoriesOpen }
               />) }
             />
           </Switch>

@@ -7,7 +7,6 @@ class Home extends React.Component {
   render() {
     const { productList, handleAddInCart,
       noSearch, sort, handleChange, categoriesOpen } = this.props;
-    const mlCat = 'ml-category';
     return (
       <>
         { productList.length ? (
@@ -37,7 +36,7 @@ class Home extends React.Component {
             />
           </div>
         ) : noSearch || (
-          <section className={ `home-container page-text ${categoriesOpen && mlCat}` }>
+          <section className="home-container page-text">
             <h2 className="title-message">Nenhum produto foi encontrado</h2>
             <p className="message">
               Digite algum termo de pesquisa ou escolha uma categoria.
@@ -46,7 +45,7 @@ class Home extends React.Component {
         ) }
         {
           noSearch && (
-            <section className={ `home-container page-text ${categoriesOpen && mlCat}` }>
+            <section className="home-container page-text">
               <h2 className="title-message">Realize uma busca</h2>
               <p className="message" data-testid="home-initial-message">
                 Digite algum termo de pesquisa ou escolha uma categoria.

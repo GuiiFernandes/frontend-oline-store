@@ -1,5 +1,6 @@
 .home-container {
   background-color: var(--light-gray);
+  min-height: calc(100vh - var(--size-header));
   width: 100%;
 }
 

@@ -2,16 +2,17 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import '../css/FormCheckout.css';
 import InputMask from 'react-input-mask';
-import boleto from '../img/boleto-icon.svg';
-import selectBoleto from '../img/select-boleto-icon.svg';
-import master from '../img/master-icon.svg';
-import selectMaster from '../img/select-master-icon.svg';
-import visa from '../img/visa-icon.svg';
-import selectVisa from '../img/select-visa-icon.svg';
-import elo from '../img/elo-icon.svg';
-import selectElo from '../img/select-elo-icon.svg';
+import BoletoIcon from '../img/BoletoIcon';
+import VisaIcon from '../img/VisaIcon';
+import MasterIcon from '../img/MasterIcon';
+import EloIcon from '../img/EloIcon';
 
 export default class FormCheckout extends Component {
+  checkColor = (payment, flag) => {
+    if (payment === flag) return '#ff3b93';
+    return '#37023a';
+  };
+
   render() {
     const { campos, handleChange, handleSubmit, mostrarErro } = this.props;
     const { fullname, email, cpf, phone, cep, address, payment } = campos;
@@ -112,15 +113,7 @@ export default class FormCheckout extends Component {
               onChange={ handleChange }
               required
             />
-            { payment === 'Boleto' ? (
-              <img
-                src={ selectBoleto }
-                alt="pagemento por boleto"
-                className="payment-img"
-              />
-            ) : (
-              <img src={ boleto } alt="pagemento por boleto" className="payment-img" />
-            ) }
+            <BoletoIcon color={ this.checkColor(payment, 'Boleto') } />
           </label>
           <label htmlFor="visa">
             <input
@@ -133,15 +126,7 @@ export default class FormCheckout extends Component {
               onChange={ handleChange }
               required
             />
-            { payment === 'Visa' ? (
-              <img
-                src={ selectVisa }
-                alt="pagemento por cartão visa"
-                className="payment-img"
-              />
-            ) : (
-              <img src={ visa } alt="pagemento por cartão visa" className="payment-img" />
-            ) }
+            <VisaIcon color={ this.checkColor(payment, 'Visa') } />
           </label>
           <label htmlFor="master">
             <input
@@ -154,19 +139,7 @@ export default class FormCheckout extends Component {
               onChange={ handleChange }
               required
             />
-            { payment === 'MasterCard' ? (
-              <img
-                src={ selectMaster }
-                alt="pagemento por cartão Master Card"
-                className="payment-img"
-              />
-            ) : (
-              <img
-                src={ master }
-                alt="pagemento por cartão Master Card"
-                className="payment-img"
-              />
-            ) }
+            <MasterIcon color={ this.checkColor(payment, 'MasterCard') } />
           </label>
           <label htmlFor="elo">
             <input
@@ -179,15 +152,7 @@ export default class FormCheckout extends Component {
               onChange={ handleChange }
               required
             />
-            { payment === 'Elo' ? (
-              <img
-                src={ selectElo }
-                alt="pagemento por cartão elo"
-                className="payment-img"
-              />
-            ) : (
-              <img src={ elo } alt="pagemento por cartão elo" className="payment-img" />
-            ) }
+            <EloIcon color={ this.checkColor(payment, 'Elo') } />
           </label>
         </div>
         { mostrarErro && (
