@@ -6,11 +6,11 @@ import '../css/Home.css';
 class Home extends React.Component {
   render() {
     const { productList, handleAddInCart,
-      noSearch, sort, handleChange, categoriesOpen } = this.props;
+      noSearch, sort, handleChange } = this.props;
     return (
       <>
         { productList.length ? (
-          <div className={ `products-container ${categoriesOpen && mlCat}` }>
+          <div className="products-container">
             <div className="select-container">
               <div />
               <select
@@ -69,7 +69,6 @@ Home.propTypes = {
   noSearch: PropTypes.bool.isRequired,
   sort: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-  categoriesOpen: PropTypes.bool.isRequired,
 };
 
 export default Home;
