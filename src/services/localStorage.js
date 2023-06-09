@@ -3,19 +3,20 @@ const setCart = (arrayCart) => {
   localStorage.setItem('cart', JSON.stringify(arrayCart));
 };
 
-export const addToCart = (product) => {
+export const addToCart = (product, quantity = 1) => {
   const cart = getCart();
   const itemInCart = cart.find(({ id }) => id === product.id);
-  const newQuantity = (itemInCart ? itemInCart.quantity + 1 : 1);
-  if (newQuantity <= (itemInCart || product).available_quantity) {
-    if (itemInCart) {
-      itemInCart.quantity += 1;
-    } else {
-      cart.push({
-        ...product,
-        quantity: 1,
-      });
-    }
+  const maxQtd = (itemInCart || product).available_quantity;
+  const newQuantity = (itemInCart ? itemInCart.quantity + quantity : quantity);
+  const condition = newQuantity <= maxQtd;
+  const validQtd = condition ? newQuantity : maxQtd;
+  if (itemInCart) {
+    itemInCart.quantity = validQtd;
+  } else {
+    cart.push({
+      ...product,
+      quantity,
+    });
   }
   setCart(cart);
 };

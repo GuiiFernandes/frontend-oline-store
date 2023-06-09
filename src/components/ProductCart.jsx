@@ -92,14 +92,13 @@ export default class ProductCart extends Component {
 ProductCart.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     thumbnail: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     available_quantity: PropTypes.number.isRequired,
   }).isRequired,
-  quantities: PropTypes.objectOf(PropTypes.number).isRequired,
+  quantities: PropTypes.instanceOf(Object).isRequired,
   handleChangeQuantity: PropTypes.func,
   handleRemoveProduct: PropTypes.func.isRequired,
   noCheckout: PropTypes.bool,
