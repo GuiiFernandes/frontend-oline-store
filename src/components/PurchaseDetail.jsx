@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { NumericFormat } from 'react-number-format';
+import { FaShoppingCart } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { addToCart } from '../services/localStorage';
 
@@ -72,11 +73,12 @@ export default class PurchaseDetail extends Component {
           </button>
         </div>
         <button
-          className="btn-checkout"
+          className="btnAddCart"
           data-testid="product-detail-add-to-cart"
           onClick={ () => this.handleAddInCart(product) }
         >
           Adicionar ao carrinho
+          <FaShoppingCart size="20px" />
         </button>
       </div>
     );
