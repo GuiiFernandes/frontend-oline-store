@@ -20,6 +20,8 @@ class App extends Component {
     redirect: false,
     categories: [],
     categoriesOpen: false,
+    isAnimatingAdd: false,
+    isAnimatingRemove: false,
   };
 
   async componentDidMount() {
@@ -50,7 +52,22 @@ class App extends Component {
     });
   };
 
+  animatingAdd = () => {
+    const timeOut = 500;
+    this.setState({ isAnimatingAdd: true }, () => {
+      setTimeout(() => this.setState({ isAnimatingAdd: false }), timeOut);
+    });
+  };
+
+  animatingRemove = () => {
+    const timeOut = 500;
+    this.setState({ isAnimatingRemove: true }, () => {
+      setTimeout(() => this.setState({ isAnimatingRemove: false }), timeOut);
+    });
+  };
+
   handleAddInCart = (product) => {
+    this.animatingAdd();
     addToCart(product);
     this.updateCartCount();
   };
@@ -66,7 +83,7 @@ class App extends Component {
   };
 
   render() {
-    const { query, productList, cartCount,
+    const { query, productList, cartCount, isAnimatingAdd, isAnimatingRemove,
       noSearch, sort, redirect, categories, categoriesOpen } = this.state;
     const mlCat = 'ml-category';
 
@@ -81,6 +98,8 @@ class App extends Component {
           handleChange={ this.handleChange }
           query={ query }
           categoriesOpen={ categoriesOpen }
+          isAnimatingAdd={ isAnimatingAdd }
+          isAnimatingRemove={ isAnimatingRemove }
           getProducts={ this.getProducts }
           visibleCategories={ this.visibleCategories }
           redirect={ redirect }
@@ -101,6 +120,7 @@ class App extends Component {
                 { ...props }
                 updateCartCount={ this.updateCartCount }
                 categoriesOpen={ categoriesOpen }
+                animatingRemove={ this.animatingRemove }
               />) }
             />
             <Route exact path="/">
@@ -120,6 +140,7 @@ class App extends Component {
                 { ...props }
                 handleAddInCart={ this.handleAddInCart }
                 updateCartCount={ this.updateCartCount }
+                animatingAdd={ this.animatingAdd }
               />) }
             />
             <Route

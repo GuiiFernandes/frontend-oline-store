@@ -8,7 +8,7 @@ import '../css/Header.css';
 
 export default class Header extends Component {
   render() {
-    const { query, handleChange, getProducts,
+    const { query, handleChange, getProducts, isAnimatingAdd, isAnimatingRemove,
       cartCount, visibleCategories, categoriesOpen } = this.props;
     return (
       <header className="header">
@@ -50,7 +50,8 @@ export default class Header extends Component {
           <div className="cart-header-container">
             <BsCart3 color="white" size="45px" />
             <span
-              className="count-cart"
+              className={ `count-cart ${isAnimatingAdd
+                ? 'add-cart' : ''} ${isAnimatingRemove ? 'remove-cart' : ''}` }
               data-testid="shopping-cart-size"
             >
               { cartCount }
@@ -69,4 +70,6 @@ Header.propTypes = {
   cartCount: PropTypes.number.isRequired,
   visibleCategories: PropTypes.func.isRequired,
   categoriesOpen: PropTypes.bool.isRequired,
+  isAnimatingAdd: PropTypes.bool.isRequired,
+  isAnimatingRemove: PropTypes.bool.isRequired,
 };

@@ -73,7 +73,7 @@ export default class Product extends Component {
   };
 
   render() {
-    const { updateCartCount } = this.props;
+    const { updateCartCount, animatingAdd } = this.props;
     const { product, email, rating, reviews,
       evaluation, errorMsg, specificationsOpen } = this.state;
     const { title, thumbnail, attributes } = product;
@@ -133,6 +133,7 @@ export default class Product extends Component {
             <PurchaseDetail
               product={ product }
               updateCartCount={ updateCartCount }
+              animatingAdd={ animatingAdd }
             />
           </div>
         </div>
@@ -225,4 +226,5 @@ Product.propTypes = {
   }).isRequired,
   handleAddInCart: PropTypes.func.isRequired,
   updateCartCount: PropTypes.func.isRequired,
+  animatingAdd: PropTypes.bool.isRequired,
 };

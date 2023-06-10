@@ -37,8 +37,9 @@ export default class Cart extends Component {
   };
 
   handleRemoveProduct = (product) => {
-    const { updateCartCount } = this.props;
+    const { updateCartCount, animatingRemove } = this.props;
     const { productsInCart } = this.state;
+    animatingRemove();
     this.setState({ productsInCart: removeProduct(product, productsInCart) });
     updateCartCount();
   };
@@ -105,4 +106,5 @@ export default class Cart extends Component {
 
 Cart.propTypes = {
   updateCartCount: PropTypes.func.isRequired,
+  animatingRemove: PropTypes.func.isRequired,
 };

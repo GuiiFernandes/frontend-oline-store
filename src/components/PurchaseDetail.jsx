@@ -13,7 +13,8 @@ export default class PurchaseDetail extends Component {
 
   handleAddInCart = (product) => {
     const { quantity } = this.state;
-    const { updateCartCount } = this.props;
+    const { updateCartCount, animatingAdd } = this.props;
+    animatingAdd();
     addToCart(product, quantity);
     updateCartCount();
   };
@@ -93,4 +94,5 @@ export default class PurchaseDetail extends Component {
 PurchaseDetail.propTypes = {
   product: PropTypes.instanceOf(Object).isRequired,
   updateCartCount: PropTypes.func.isRequired,
+  animatingAdd: PropTypes.func.isRequired,
 };
