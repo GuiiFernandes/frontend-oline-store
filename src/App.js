@@ -119,6 +119,7 @@ class App extends Component {
               render={ (props) => (<Product
                 { ...props }
                 handleAddInCart={ this.handleAddInCart }
+                updateCartCount={ this.updateCartCount }
               />) }
             />
             <Route

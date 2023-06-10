@@ -7,8 +7,7 @@ import { getProductById } from '../services/api';
 import '../css/Product.css';
 import '../css/Rating.css';
 import PurchaseDetail from '../components/PurchaseDetail';
-
-const MAX_RATING = 5;
+import Rating from '../components/Rating';
 
 export default class Product extends Component {
   state = {
@@ -68,29 +67,16 @@ export default class Product extends Component {
     });
   };
 
-  renderReviews = () => {
-    const { reviews } = this.state;
-
-    return reviews.map((review, index) => (
-      <div key={ index }>
-        <p data-testid="review-card-email">{review.email}</p>
-        <p data-testid="review-card-rating">{review.rating}</p>
-        <p data-testid="review-card-evaluation">{review.evaluation}</p>
-      </div>
-    ));
-  };
-
   openSpecifications = () => {
     const { specificationsOpen } = this.state;
     this.setState({ specificationsOpen: !specificationsOpen });
   };
 
   render() {
-    const { product, email, rating,
+    const { updateCartCount } = this.props;
+    const { product, email, rating, reviews,
       evaluation, errorMsg, specificationsOpen } = this.state;
     const { title, thumbnail, attributes } = product;
-
-    const ratings = [...Array(MAX_RATING).keys()].map((index) => MAX_RATING - index);
     const biggerScreen = 900;
     const screenIsBigger = document.body.clientWidth > biggerScreen;
 
@@ -112,8 +98,8 @@ export default class Product extends Component {
               alt={ title }
             />
           </div>
-          <div>
-            <div>
+          <div className="infos-container">
+            <div className="specifications-container">
 
               { screenIsBigger ? (
                 <h2 className="checkout-items-title">Especificações</h2>
@@ -146,61 +132,84 @@ export default class Product extends Component {
             </div>
             <PurchaseDetail
               product={ product }
+              updateCartCount={ updateCartCount }
             />
           </div>
         </div>
         <div className="reviews-container">
-          <form onSubmit={ this.handleSubmit }>
-
-            <label htmlFor="email">
+          <form
+            className="review-form"
+            onSubmit={ this.handleSubmit }
+          >
+            <h2 className="checkout-items-title">Avalie este produto</h2>
+            <div className="email-rating">
               <input
+                className="form-input"
                 data-testid="product-detail-email"
                 type="email"
                 name="email"
                 value={ email }
                 id="email"
                 onChange={ this.handleInputChange }
-
+                placeholder="E-mail"
               />
-            </label>
-
-            <label htmlFor="evaluation">
-              <textarea
-                data-testid="product-detail-evaluation"
-                name="evaluation"
-                value={ evaluation }
-                id="evaluation"
-                onChange={ this.handleInputChange }
+              <Rating
+                rating={ rating }
+                handleInputChange={ this.handleInputChange }
+                isInput
               />
-            </label>
-            <div className="rating">
-              {
-                ratings.map((value) => (
-                  <>
-                    <input
-                      data-testid={ `${value}-rating` }
-                      id={ `star-${value}` }
-                      type="radio"
-                      name="rating"
-                      value={ value }
-                      onChange={ this.handleInputChange }
-                      checked={ rating === value }
-                    />
-                    <label htmlFor={ `star-${value}` } key={ value }>
-                      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" pathLength="360" /></svg>
-                    </label>
-                  </>
-                ))
-              }
             </div>
-
-            {errorMsg && <p data-testid="error-msg">{ errorMsg }</p>}
-
-            <button type="submit" data-testid="submit-review-btn">Avaliar</button>
+            <textarea
+              className="form-input textarea"
+              data-testid="product-detail-evaluation"
+              name="evaluation"
+              value={ evaluation }
+              id="evaluation"
+              placeholder="Deixe seu comentário (opcional)"
+              onChange={ this.handleInputChange }
+            />
+            {errorMsg && (
+              <p
+                className="invalid-input"
+                data-testid="error-msg"
+              >
+                { errorMsg }
+              </p>
+            )}
+            <button
+              type="submit"
+              className="btn-checkout"
+              data-testid="submit-review-btn"
+            >
+              Avaliar
+            </button>
           </form>
-
           <div className="reviews">
-            {this.renderReviews()}
+            <h2 className="checkout-items-title">Avaliações</h2>
+            <div className="container-review">
+              { reviews.map((review, index) => (
+                <div className="review-container" key={ index }>
+                  <div className="review-line1">
+                    <p
+                      className="text-email"
+                      data-testid="review-card-email"
+                    >
+                      {review.email}
+                    </p>
+                    <Rating
+                      rating={ review.rating }
+                      handleInputChange={ this.handleInputChange }
+                    />
+                  </div>
+                  <p
+                    className="text-evaluation"
+                    data-testid="review-card-evaluation"
+                  >
+                    {review.evaluation}
+                  </p>
+                </div>
+              )) }
+            </div>
           </div>
         </div>
       </div>
@@ -215,4 +224,5 @@ Product.propTypes = {
     }).isRequired,
   }).isRequired,
   handleAddInCart: PropTypes.func.isRequired,
+  updateCartCount: PropTypes.func.isRequired,
 };

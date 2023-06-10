@@ -54,10 +54,6 @@
 
 @media ( min-width : 600px ) {
 
-  .home-container {
-    width: calc(100% - var(--size-categories-p));
-  }
-
   .select-container {
     width: 90%;
   }

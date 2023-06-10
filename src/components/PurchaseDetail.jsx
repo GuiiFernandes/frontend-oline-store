@@ -4,6 +4,7 @@ import { NumericFormat } from 'react-number-format';
 import { FaShoppingCart } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { addToCart } from '../services/localStorage';
+import '../css/Product.css';
 
 export default class PurchaseDetail extends Component {
   state = {
@@ -12,7 +13,9 @@ export default class PurchaseDetail extends Component {
 
   handleAddInCart = (product) => {
     const { quantity } = this.state;
+    const { updateCartCount } = this.props;
     addToCart(product, quantity);
+    updateCartCount();
   };
 
   handleChangeQuantity = (product, mult, value, fromInput) => {
@@ -30,47 +33,49 @@ export default class PurchaseDetail extends Component {
     const nMult = -1;
     return (
       <div className="purchase-detail-container">
-        <NumericFormat
-          className="value-total"
-          value={ price }
-          allowNegative={ false }
-          displayType="text"
-          data-testid="product-detail-price"
-          decimalScale={ 2 }
-          fixedDecimalScale
-          decimalSeparator=","
-          prefix="R$"
-          thousandSeparator="."
-        />
-        <div className="qtd-detail-container">
-          <button
-            className="btn-cart qtd"
-            data-testid="product-decrease-quantity"
-            onClick={ () => this.handleChangeQuantity(product, nMult, 1, false) }
-            disabled={ quantity === 1 }
-          >
-            <IoIosArrowBack size="20px" />
-          </button>
-          <input
-            type="number"
-            className="product-qtd"
-            min="1"
-            max={ availableQuantity }
-            step="1"
-            name="quantity"
-            value={ quantity }
-            onChange={ (e) => (
-              this.handleChangeQuantity(product, 1, e.target.value, true)
-            ) }
+        <div className="purchase-price-container">
+          <NumericFormat
+            className="value-total"
+            value={ price }
+            allowNegative={ false }
+            displayType="text"
+            data-testid="product-detail-price"
+            decimalScale={ 2 }
+            fixedDecimalScale
+            decimalSeparator=","
+            prefix="R$"
+            thousandSeparator="."
           />
-          <button
-            className="btn-cart qtd"
-            data-testid="product-increase-quantity"
-            onClick={ () => this.handleChangeQuantity(product, 1, 1, false) }
-            disabled={ quantity === availableQuantity }
-          >
-            <IoIosArrowForward size="20px" />
-          </button>
+          <div className="qtd-detail-container">
+            <button
+              className="btn-cart qtd"
+              data-testid="product-decrease-quantity"
+              onClick={ () => this.handleChangeQuantity(product, nMult, 1, false) }
+              disabled={ quantity === 1 }
+            >
+              <IoIosArrowBack size="20px" />
+            </button>
+            <input
+              type="number"
+              className="product-qtd"
+              min="1"
+              max={ availableQuantity }
+              step="1"
+              name="quantity"
+              value={ quantity }
+              onChange={ (e) => (
+                this.handleChangeQuantity(product, 1, e.target.value, true)
+              ) }
+            />
+            <button
+              className="btn-cart qtd"
+              data-testid="product-increase-quantity"
+              onClick={ () => this.handleChangeQuantity(product, 1, 1, false) }
+              disabled={ quantity === availableQuantity }
+            >
+              <IoIosArrowForward size="20px" />
+            </button>
+          </div>
         </div>
         <button
           className="btnAddCart"
@@ -87,4 +92,5 @@ export default class PurchaseDetail extends Component {
 
 PurchaseDetail.propTypes = {
   product: PropTypes.instanceOf(Object).isRequired,
+  updateCartCount: PropTypes.func.isRequired,
 };

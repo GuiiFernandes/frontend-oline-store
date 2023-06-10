@@ -1,7 +1,8 @@
 .rating {
+  align-items: center;
   display: flex;
   flex-direction: row-reverse;
-  gap: 0.3rem;
+  justify-content: center;
 
   --stroke: #666;
 
@@ -14,6 +15,7 @@
 
 .rating label {
   cursor: pointer;
+  height: 30px;
 }
 
 .rating svg {
@@ -33,6 +35,15 @@
   from {
     stroke-dashoffset: 24;
   }
+}
+
+.star-checked svg {
+  fill: var(--fill);
+  stroke: var(--fill);
+  stroke-dasharray: 0;
+  stroke-linejoin: miter;
+  stroke-opacity: 0;
+  stroke-width: 8px;
 }
 
 .rating label:hover svg {

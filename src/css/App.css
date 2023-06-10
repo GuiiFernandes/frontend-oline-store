@@ -29,6 +29,7 @@ a {
 
   .ml-category {
     margin-left: var(--size-categories-p);
+    width: calc(100% - var(--size-categories-p));
   }
 }
 
