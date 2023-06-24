@@ -73,7 +73,8 @@ export default class Checkout extends Component {
     } else {
       this.setState((prevState) => ({ campos: {
         ...prevState.campos,
-        freights: [{ Valor: 0, PrazoEntrega: 0, Codigo: 'Grátis' }],
+        freights: [{ Valor: '0,00', PrazoEntrega: '0', Codigo: 'Grátis' }],
+        freight: '0,00',
       } }));
     }
   };
@@ -83,7 +84,7 @@ export default class Checkout extends Component {
       consultarCep(value).then((response) => {
         const { bairro, logradouro, localidade, uf } = response;
         console.log(response);
-        if (response.error) {
+        if (response.erro) {
           this.setState((prevState) => ({ campos: { ...prevState.campos,
             cep: value,
             address: 'CEP INVÁLIDO!' } }));
@@ -117,7 +118,9 @@ export default class Checkout extends Component {
     const { name, value } = event.target;
     this.setState((prevState) => ({
       campos: { ...prevState.campos, [name]: value },
-      totalValue: this.getTotal(prevState.productsInCart) + this.getFreight(value),
+      totalValue: this.getTotal(prevState.productsInCart) + (name === 'freight'
+        ? this.getFreight(value)
+        : 0),
     }));
   };
 
