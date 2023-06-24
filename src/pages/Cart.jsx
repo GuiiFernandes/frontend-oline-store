@@ -46,6 +46,8 @@ export default class Cart extends Component {
 
   render() {
     const { productsInCart, quantities } = this.state;
+    const totalCart = productsInCart.reduce((total, { quantity, price }) => (
+      total + (price * quantity)), 0);
     return (
       <div className="page-cart-container">
         <Route
@@ -72,10 +74,7 @@ export default class Cart extends Component {
                 <p className="title-total">TOTAL</p>
                 <NumericFormat
                   className="value-total"
-                  value={
-                    productsInCart.reduce((total, { quantity, price }) => (
-                      total + (price * quantity)), 0)
-                  }
+                  value={ totalCart }
                   allowNegative={ false }
                   displayType="text"
                   decimalScale={ 2 }

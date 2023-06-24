@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import '../css/FormCheckout.css';
 import InputMask from 'react-input-mask';
+
+import '../css/FormCheckout.css';
 import BoletoIcon from '../img/BoletoIcon';
 import VisaIcon from '../img/VisaIcon';
 import MasterIcon from '../img/MasterIcon';
 import EloIcon from '../img/EloIcon';
+import PersonalForm from './PersonalForm';
 
 export default class FormCheckout extends Component {
   checkColor = (payment, flag) => {
@@ -14,76 +16,34 @@ export default class FormCheckout extends Component {
   };
 
   render() {
-    const { campos, handleChange, handleSubmit, mostrarErro } = this.props;
-    const { fullname, email, cpf, phone, cep, address, payment } = campos;
+    const FREE_SHIPPING_MIN_VALUE = 700;
+    const { campos, handleChange, handleChangeCep,
+      handleSubmit, mostrarErro, totalValue } = this.props;
+    const { freights, cep, address, payment, number, freight } = campos;
     return (
       <form className="form-container">
         <h2 className="form-title">Informações do Comprador</h2>
-        <label htmlFor="fullname">
-          Nome Completo
-          <input
-            className="form-input"
-            name="fullname"
-            type="text"
-            id="fullname"
-            data-testid="checkout-fullname"
-            value={ fullname }
-            onChange={ handleChange }
-            required
-          />
-        </label>
-        <label htmlFor="email">
-          Email
-          <input
-            className="form-input"
-            name="email"
-            type="email"
-            id="email"
-            data-testid="checkout-email"
-            value={ email }
-            onChange={ handleChange }
-            required
-          />
-        </label>
-        <label htmlFor="cpf">
-          CPF
-          <InputMask
-            mask="999.999.999-99"
-            className="form-input"
-            name="cpf"
-            type="text"
-            id="cpf"
-            data-testid="checkout-cpf"
-            value={ cpf }
-            onChange={ handleChange }
-            required
-          />
-        </label>
-        <label htmlFor="phone">
-          Celular
-          <InputMask
-            mask="(99) 99999-9999"
-            className="form-input"
-            name="phone"
-            type="text"
-            id="phone"
-            data-testid="checkout-phone"
-            value={ phone }
-            onChange={ handleChange }
-            required
-          />
-        </label>
+        <PersonalForm campos={ campos } handleChange={ handleChange } />
         <label htmlFor="cep">
-          CEP
+          CEP (
+          <a
+            className="cep-link"
+            href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Para buscar CEP clique aqui
+          </a>
+          )
           <InputMask
-            mask="99.999-999"
-            className="form-input"
+            mask="99999-999"
+            className="form-input cep"
             name="cep"
             type="text"
             id="cep"
             data-testid="checkout-cep"
             value={ cep }
-            onChange={ handleChange }
+            onChange={ handleChangeCep }
             required
           />
         </label>
@@ -91,15 +51,60 @@ export default class FormCheckout extends Component {
           Endereço
           <input
             className="form-input"
+            disabled
             name="address"
             type="text"
             id="address"
             data-testid="checkout-address"
+            placeholder="Com CEP endereço e frete são automáticos"
             value={ address }
-            onChange={ handleChange }
             required
           />
         </label>
+        <div>
+          <label htmlFor="number">
+            Número e Complemento
+            <input
+              className="form-input"
+              disabled={ address === '' }
+              name="address"
+              type="text"
+              id="address"
+              data-testid="checkout-address"
+              value={ number }
+              onChange={ handleChange }
+              required
+            />
+          </label>
+          { freights.length > 0 && (
+            <div>
+              <p>Frete</p>
+              <div>
+                { totalValue > FREE_SHIPPING_MIN_VALUE
+                  ? 'Grátis'
+                  : freights.map(({ Valor, PrazoEntrega, Codigo }) => (
+                    <label
+                      key={ Codigo }
+                      htmlFor={ Codigo }
+                      style={ { color: this.checkColor(freight, Valor) } }
+                    >
+                      <input
+                        type="radio"
+                        id={ Codigo }
+                        name="freight"
+                        value={ Valor }
+                        checked={ freight === Valor }
+                        onChange={ handleChange }
+                        required
+                      />
+                      {`${Codigo === '04014' ? 'Sedex' : 'PAC'}
+                       R$ ${Valor} - ${PrazoEntrega} dias úteis`}
+                    </label>
+                  )) }
+              </div>
+            </div>
+          ) }
+        </div>
         <div className="payment-container">
           <h3 className="form-title smaller">Método de pagamento:</h3>
           <label htmlFor="ticket">
@@ -178,15 +183,16 @@ export default class FormCheckout extends Component {
 
 FormCheckout.propTypes = {
   campos: PropTypes.shape({
-    fullname: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    cpf: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
     cep: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+    freights: PropTypes.arrayOf(PropTypes.instanceOf(Object)).isRequired,
     payment: PropTypes.string.isRequired,
+    freight: PropTypes.string.isRequired,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
+  handleChangeCep: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   mostrarErro: PropTypes.bool.isRequired,
+  totalValue: PropTypes.number.isRequired,
 };

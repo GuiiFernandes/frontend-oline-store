@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 import { IoIosArrowForward, IoIosArrowDown } from 'react-icons/io';
+import { calcularPrecoPrazo, consultarCep } from 'correios-brasil';
+
 import ProductCart from '../components/ProductCart';
 import BackBtn from '../components/BackBtn';
 import FormCheckout from '../components/FormCheckout';
@@ -16,14 +18,18 @@ export default class Checkout extends Component {
       cpf: '',
       phone: '',
       cep: '',
+      number: '',
       address: '',
+      freights: [],
       payment: '',
+      freight: '',
     },
     productsInCart: [],
     quantities: {},
     mostrarErro: false,
     cartOpen: false,
     completedPurchase: false,
+    totalValue: 0,
   };
 
   componentDidMount() {
@@ -32,25 +38,94 @@ export default class Checkout extends Component {
     }, () => this.setState(({ productsInCart }) => ({
       quantities: productsInCart
         .reduce((obj, { id, quantity }) => ({ ...obj, [id]: quantity }), {}),
+      totalValue: this.getTotal(productsInCart),
     })));
   }
 
-  handleChange = (event) => {
+  calculateFreights = async (cep, totalValue) => {
+    const FREE_SHIPPING_MIN_VALUE = 700;
+    if (totalValue < FREE_SHIPPING_MIN_VALUE) {
+      const args = { sCepOrigem: '81200100',
+        sCepDestino: cep,
+        nVlPeso: '1',
+        nCdFormato: '1',
+        nVlComprimento: '20',
+        nVlAltura: '20',
+        nVlLargura: '20',
+        nCdServico: ['04014', '04510'], // Array com os códigos de serviço
+        nVlDiametro: '0' };
+      calcularPrecoPrazo(args).then((newResponse) => {
+        this.setState((prevState) => ({
+          campos: { ...prevState.campos,
+            freights: newResponse
+              .map(({ Valor, PrazoEntrega, Codigo }) => (
+                { Valor, PrazoEntrega, Codigo })) },
+        }));
+      }).catch(() => {
+        this.setState((prevState) => ({
+          campos: { ...prevState.campos,
+            freights: [
+              { Valor: '53,10', PrazoEntrega: '8', Codigo: '04014' },
+              { Valor: '27,80', PrazoEntrega: '10', Codigo: '04510' },
+            ] },
+        }));
+      });
+    } else {
+      this.setState((prevState) => ({ campos: {
+        ...prevState.campos,
+        freights: [{ Valor: 0, PrazoEntrega: 0, Codigo: 'Grátis' }],
+      } }));
+    }
+  };
+
+  handleChangeCep = async ({ target: { value } }) => {
+    if (!value.includes('_') && !!value.length) {
+      consultarCep(value).then((response) => {
+        const { bairro, logradouro, localidade, uf } = response;
+        console.log(response);
+        if (response.error) {
+          this.setState((prevState) => ({ campos: { ...prevState.campos,
+            cep: value,
+            address: 'CEP INVÁLIDO!' } }));
+        } else {
+          this.setState((prevState) => ({ campos: { ...prevState.campos,
+            cep: value,
+            address: `${logradouro}, ${bairro}, ${localidade}, ${uf}` } }), () => {
+            const { campos: { cep }, totalValue } = this.state;
+            this.calculateFreights(cep, totalValue);
+          });
+        }
+      });
+    } else {
+      this.setState((prevState) => ({ campos: {
+        ...prevState.campos,
+        cep: value,
+        address: '',
+      } }));
+    }
+  };
+
+  getTotal = (productsInCart) => productsInCart
+    .reduce((total, { quantity, price }) => (total + (price * quantity)), 0);
+
+  getFreight = (value) => {
+    const freightValue = value.replace(',', '.');
+    return Number(freightValue);
+  };
+
+  handleChange = async (event) => {
     const { name, value } = event.target;
     this.setState((prevState) => ({
-      campos: {
-        ...prevState.campos,
-        [name]: value,
-      },
+      campos: { ...prevState.campos, [name]: value },
+      totalValue: this.getTotal(prevState.productsInCart) + this.getFreight(value),
     }));
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     const msgTime = 5000;
-    const { campos } = this.state;
+    const { campos: { fullname, email, cpf, phone, cep, address, payment } } = this.state;
     const { history, updateCartCount } = this.props;
-    const { fullname, email, cpf, phone, cep, address, payment } = campos;
     const camposInvalidos = !fullname
     || !email || !cpf || !phone || !cep || !address || !payment;
     if (camposInvalidos) {
@@ -60,9 +135,7 @@ export default class Checkout extends Component {
     this.setState({ completedPurchase: true });
     localStorage.setItem('cart', JSON.stringify([]));
     updateCartCount();
-    setTimeout(() => {
-      history.push('/');
-    }, msgTime);
+    setTimeout(() => { history.push('/'); }, msgTime);
   };
 
   handleRemoveProduct = (product) => {
@@ -78,7 +151,7 @@ export default class Checkout extends Component {
   };
 
   render() {
-    const { productsInCart, cartOpen, campos,
+    const { productsInCart, cartOpen, campos, totalValue,
       quantities, mostrarErro, completedPurchase } = this.state;
     const biggerScreen = 900;
     const screenIsBigger = document.body.clientWidth > biggerScreen;
@@ -140,10 +213,7 @@ export default class Checkout extends Component {
                 <p className="title-total">TOTAL:</p>
                 <NumericFormat
                   className="value-total"
-                  value={
-                    productsInCart.reduce((total, { quantity, price }) => (
-                      total + (price * quantity)), 0)
-                  }
+                  value={ totalValue }
                   allowNegative={ false }
                   displayType="text"
                   decimalScale={ 2 }
@@ -159,6 +229,8 @@ export default class Checkout extends Component {
               handleChange={ this.handleChange }
               handleSubmit={ this.handleSubmit }
               mostrarErro={ mostrarErro }
+              totalValue={ totalValue }
+              handleChangeCep={ this.handleChangeCep }
             />
           </>
         )}
