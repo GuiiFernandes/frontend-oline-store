@@ -80,15 +80,18 @@ export default class Checkout extends Component {
   };
 
   handleChangeCep = async ({ target: { value } }) => {
+    console.log(value, (!value.includes('_') && !!value.length));
     if (!value.includes('_') && !!value.length) {
       consultarCep(value).then((response) => {
         const { bairro, logradouro, localidade, uf } = response;
         console.log(response);
         if (response.erro) {
+          console.log('entrei aqui (erro)');
           this.setState((prevState) => ({ campos: { ...prevState.campos,
             cep: value,
             address: 'CEP INVÁLIDO!' } }));
         } else {
+          console.log('entrei aqui (sucesso)');
           this.setState((prevState) => ({ campos: { ...prevState.campos,
             cep: value,
             address: `${logradouro}, ${bairro}, ${localidade}, ${uf}` } }), () => {

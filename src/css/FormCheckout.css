@@ -5,7 +5,6 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  height: 579px;
   margin-bottom: 20px;
   overflow: scroll;
   padding: 5px;
@@ -63,9 +62,10 @@
   width: 100%;
 }
 
-.payment-container > label > input {
+.payment-container > label > input, .input-freight {
   display: none;
 }
+
 
 @media ( min-width : 900px ) {
 

@@ -86,9 +86,13 @@ export default class FormCheckout extends Component {
                     <label
                       key={ Codigo }
                       htmlFor={ Codigo }
-                      style={ { color: this.checkColor(freight, Valor) } }
+                      style={ {
+                        color: this.checkColor(freight, Valor),
+                        fontWeight: freight === Valor ? 'bold' : 'normal',
+                      } }
                     >
                       <input
+                        className="input-freight"
                         type="radio"
                         id={ Codigo }
                         name="freight"
